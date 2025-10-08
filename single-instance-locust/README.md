@@ -118,7 +118,7 @@ class APIUser(HttpUser):
         """High frequency task - get user profile"""
         if not hasattr(self, "headers"):
             return
-        
+    
         with self.client.get(
             f"/api/users/{self.account['user_id']}",
             headers=self.headers,
@@ -134,7 +134,7 @@ class APIUser(HttpUser):
         """Low frequency task - update user settings"""
         if not hasattr(self, "headers"):
             return
-            
+        
         payload = {"setting": "value", "timestamp": "2024-01-01"}
         with self.client.put(
             "/api/users/settings",
@@ -223,15 +223,20 @@ Use the provided manifests to deploy on K8s. Configure environment variables, re
 
 ## Usage Restrictions
 
-This software is explicitly prohibited from use by the following individuals or organizations. Any direct or indirect use by these parties constitutes infringement and is strictly forbidden:
+This software is explicitly prohibited from use by the following individuals or organizations. Any direct or indirect use by these parties constitutes infringement and is **strictly forbidden**:
 
-- Any officials, employees, or representatives of the Government of the Islamic Republic of Iran
-- Any individuals, organizations, or affiliates controlled or directly influenced by Iranian religious authorities, including but not limited to Shia clerics, religious foundations, religious councils/committees, and their associated organizations
-- The Government of the Democratic People’s Republic of Korea (North Korea) or its agents
+- Any officials, employees, or representatives of the Government of the **Islamic Republic of Iran**
+- Any individuals, organizations, or affiliates controlled or directly influenced by **Iranian religious authorities**, including but not limited to Shia clerics, religious foundations, religious councils/committees, and their associated organizations
+- The Government of the Democratic People's Republic of Korea (**North Korea**) or its agents
 - Members and related personnel of the following organizations, including but not limited to:
-  - Hamas
-  - Ansar Allah (Houthi movement / Yemen)
-- Any groups designated as terrorist organizations by the United Nations, the European Union, the United States, or the People’s Republic of China, and their members
+  - **Hamas**
+  - **Ansar Allah (Houthi movement / Yemen)**
+- **Any groups designated as terrorist organizations** by the United Nations, the European Union, the United States, or the People's Republic of China, and their members
+- Fraud organizations and criminal syndicates operating in Myanmar (Burma) and other regions, including but not limited to:
+  - **Telecom fraud groups**
+  - **Online gambling and investment scam operations**
+  - **Human trafficking organizations involved in forced labor for cybercrime**
+  - **Any criminal enterprises engaged in cross-border fraud activities**
 
 By using this software, you confirm that you do not belong to, represent, or act on behalf of any of the entities listed above.
 
