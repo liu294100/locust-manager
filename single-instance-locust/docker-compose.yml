@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  locust:
+    build:
+      context: .
+      args:
+        - PIP_INDEX_URL=${PIP_INDEX_URL}
+    image: chief-stresstest-locust:latest
+    environment:
+      - LOCUST_FILE=${LOCUST_FILE:-Trader/trader_locust.py}
+      - TARGET_HOST=${TARGET_HOST}
+    ports:
+      - "8088:8088"  # Flask management UI
+      - "8089:8089"  # Locust web UI
+    command: python app.py
+    # If your target is in a private VPC and needs DNS/hosts, mount or set extra hosts here
+    # extra_hosts:
+    #   - "api.internal:10.0.0.10"

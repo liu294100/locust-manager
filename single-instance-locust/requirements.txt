@@ -1,0 +1,6 @@
+locust
+gevent
+flask
+requests
+pymysql
+nacos-sdk-python

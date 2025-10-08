@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: locust-manager
+  labels:
+    name: locust-manager
+    app: locust-manager
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: locust-manager-config
+  namespace: locust-manager
+data:
+  # 应用配置
+  FLASK_ENV: "production"
+  FLASK_DEBUG: "false"
+  SECRET_KEY: "your-secret-key-change-this-in-production"
+  
+  # 集群配置
+  CLUSTER_ENABLED: "true"
+  NODE_NAME: ""  # 将在部署时通过环境变量设置
+  
+  # 文件上传配置
+  UPLOAD_FOLDER: "/app/uploads"
+  MAX_CONTENT_LENGTH: "16777216"  # 16MB
+  
+  # AWS S3配置（可选）
+  AWS_S3_ENABLED: "false"
+  AWS_S3_BUCKET: ""
+  AWS_S3_REGION: "us-east-1"
+  
+  # 其他配置
+  RESULTS_PER_PAGE: "20"
+  SESSION_TIMEOUT: "3600"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: locust-manager-secrets
+  namespace: locust-manager
+type: Opaque
+data:
+  # Base64编码的密钥，请在生产环境中更改
+  # MySQL配置
+  MYSQL_HOST: bG9jYWxob3N0  # localhost
+  MYSQL_PORT: MzMwNg==      # 3306
+  MYSQL_USER: cm9vdA==      # root
+  MYSQL_PASSWORD: MTIzNDU2  # 123456
+  MYSQL_DATABASE: bG9jdXN0X21hbmFnZXI=  # locust_manager
+  
+  # Redis配置
+  REDIS_HOST: bG9jYWxob3N0  # localhost
+  REDIS_PORT: NjM3OQ==      # 6379
+  REDIS_PASSWORD: ""        # 空密码
+  REDIS_DB: MA==            # 0
+  
+  # AWS凭证（如果启用S3）
+  AWS_ACCESS_KEY_ID: ""
+  AWS_SECRET_ACCESS_KEY: ""

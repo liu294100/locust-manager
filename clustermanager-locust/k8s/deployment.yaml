@@ -1,0 +1,234 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-manager
+  namespace: locust-manager
+  labels:
+    app: locust-manager
+    version: v1
+spec:
+  replicas: 3  # 可以根据需要调整副本数
+  selector:
+    matchLabels:
+      app: locust-manager
+  template:
+    metadata:
+      labels:
+        app: locust-manager
+        version: v1
+    spec:
+      containers:
+      - name: locust-manager
+        image: locust-manager:latest  # 请构建并推送到您的镜像仓库
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        env:
+        # 从ConfigMap获取配置
+        - name: FLASK_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: FLASK_ENV
+        - name: FLASK_DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: FLASK_DEBUG
+        - name: SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: SECRET_KEY
+        - name: CLUSTER_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: CLUSTER_ENABLED
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: UPLOAD_FOLDER
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: UPLOAD_FOLDER
+        - name: MAX_CONTENT_LENGTH
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: MAX_CONTENT_LENGTH
+        - name: AWS_S3_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: AWS_S3_ENABLED
+        - name: AWS_S3_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: AWS_S3_BUCKET
+        - name: AWS_S3_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: AWS_S3_REGION
+        - name: RESULTS_PER_PAGE
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: RESULTS_PER_PAGE
+        - name: SESSION_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: locust-manager-config
+              key: SESSION_TIMEOUT
+        
+        # 从Secret获取敏感配置
+        - name: MYSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: MYSQL_HOST
+        - name: MYSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: MYSQL_PORT
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: MYSQL_DATABASE
+        - name: REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: REDIS_PORT
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: REDIS_PASSWORD
+        - name: REDIS_DB
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: REDIS_DB
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: AWS_ACCESS_KEY_ID
+              optional: true
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: locust-manager-secrets
+              key: AWS_SECRET_ACCESS_KEY
+              optional: true
+        
+        # 健康检查
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        
+        # 资源限制
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        
+        # 挂载卷
+        volumeMounts:
+        - name: uploads
+          mountPath: /app/uploads
+        - name: scripts
+          mountPath: /app/scripts
+        - name: logs
+          mountPath: /app/logs
+      
+      # 卷定义
+      volumes:
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: locust-manager-uploads-pvc
+      - name: scripts
+        persistentVolumeClaim:
+          claimName: locust-manager-scripts-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: locust-manager-logs-pvc
+      
+      # 重启策略
+      restartPolicy: Always
+      
+      # 服务账户
+      serviceAccountName: locust-manager
+      
+      # 节点选择器（可选）
+      # nodeSelector:
+      #   kubernetes.io/os: linux
+      
+      # 容忍度（可选）
+      # tolerations:
+      # - key: "node-role.kubernetes.io/master"
+      #   operator: "Exists"
+      #   effect: "NoSchedule"
+      
+      # 亲和性（可选）
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - locust-manager
+              topologyKey: kubernetes.io/hostname

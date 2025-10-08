@@ -1,0 +1,691 @@
+{% extends "base.html" %}
+
+{% block title %}集群状态 - 压测服务管理器{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">仪表板</a></li>
+<li class="breadcrumb-item active">集群状态</li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>集群状态</h2>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary" onclick="refreshCluster()">
+            <i class="fas fa-sync-alt"></i>
+            刷新
+        </button>
+        {% if current_user.is_admin %}
+        <button class="btn btn-outline-warning" onclick="cleanupCluster()">
+            <i class="fas fa-broom"></i>
+            清理
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 集群概览 -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ cluster_stats.total_nodes or 0 }}</h4>
+                        <p class="card-text">总节点数</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-server fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ cluster_stats.active_nodes or 0 }}</h4>
+                        <p class="card-text">活跃节点</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-heartbeat fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ cluster_stats.total_instances or 0 }}</h4>
+                        <p class="card-text">总实例数</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-cogs fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ cluster_stats.running_instances or 0 }}</h4>
+                        <p class="card-text">运行实例</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-play-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 节点列表 -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-server text-primary"></i>
+            集群节点
+        </h5>
+    </div>
+    <div class="card-body">
+        {% if nodes %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>节点名称</th>
+                        <th>状态</th>
+                        <th>IP地址</th>
+                        <th>最后心跳</th>
+                        <th>实例数</th>
+                        <th>CPU使用率</th>
+                        <th>内存使用率</th>
+                        <th>负载</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for node in nodes %}
+                    <tr id="node-{{ node.node_id }}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator me-2 
+                                    {% if node.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                </div>
+                                <div>
+                                    <strong>{{ node.node_name }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ node.node_id[:8] }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if node.is_active %}
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i>
+                                在线
+                            </span>
+                            {% else %}
+                            <span class="badge bg-danger">
+                                <i class="fas fa-times-circle"></i>
+                                离线
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <code>{{ node.ip_address or '-' }}</code>
+                        </td>
+                        <td>
+                            {% if node.last_heartbeat %}
+                            <span title="{{ node.last_heartbeat.strftime('%Y-%m-%d %H:%M:%S') }}">
+                                {{ format_time_ago(node.last_heartbeat) }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted">从未</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-info">{{ node.instance_count or 0 }}</span>
+                        </td>
+                        <td>
+                            {% if node.cpu_usage is not none %}
+                            <div class="progress" style="width: 80px; height: 20px;">
+                                <div class="progress-bar 
+                                    {% if node.cpu_usage > 80 %}bg-danger
+                                    {% elif node.cpu_usage > 60 %}bg-warning
+                                    {% else %}bg-success{% endif %}" 
+                                     style="width: {{ node.cpu_usage }}%">
+                                    {{ "%.1f"|format(node.cpu_usage) }}%
+                                </div>
+                            </div>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if node.memory_usage is not none %}
+                            <div class="progress" style="width: 80px; height: 20px;">
+                                <div class="progress-bar 
+                                    {% if node.memory_usage > 80 %}bg-danger
+                                    {% elif node.memory_usage > 60 %}bg-warning
+                                    {% else %}bg-success{% endif %}" 
+                                     style="width: {{ node.memory_usage }}%">
+                                    {{ "%.1f"|format(node.memory_usage) }}%
+                                </div>
+                            </div>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if node.load_average is not none %}
+                            <span class="badge 
+                                {% if node.load_average > 2 %}bg-danger
+                                {% elif node.load_average > 1 %}bg-warning
+                                {% else %}bg-success{% endif %}">
+                                {{ "%.2f"|format(node.load_average) }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-info" 
+                                        onclick="showNodeDetails('{{ node.node_id }}')" title="详情">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                {% if current_user.is_admin and not node.is_active %}
+                                <button class="btn btn-outline-danger" 
+                                        onclick="removeNode('{{ node.node_id }}')" title="移除">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-4">
+            <i class="fas fa-server fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">暂无集群节点</h5>
+            <p class="text-muted">启动其他节点后，它们将自动出现在这里</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 集群任务分布 -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-pie text-primary"></i>
+            任务分布
+        </h5>
+    </div>
+    <div class="card-body">
+        {% if task_distribution %}
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="taskDistributionChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>任务名称</th>
+                                <th>节点数</th>
+                                <th>实例数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in task_distribution %}
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('task_detail', task_id=task.task_id) }}" 
+                                       class="text-decoration-none">
+                                        {{ task.task_name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">{{ task.node_count }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">{{ task.instance_count }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-4">
+            <i class="fas fa-chart-pie fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">暂无任务分布数据</h5>
+            <p class="text-muted">启动测试任务后，分布信息将显示在这里</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 集群性能监控 -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-line text-primary"></i>
+            集群性能监控
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>CPU使用率趋势</h6>
+                <canvas id="cpuChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h6>内存使用率趋势</h6>
+                <canvas id="memoryChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 节点详情模态框 -->
+<div class="modal fade" id="nodeDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">节点详情</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="nodeDetailsContent">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let cpuChart = null;
+    let memoryChart = null;
+    let taskChart = null;
+    let refreshInterval = null;
+    
+    function refreshCluster() {
+        showLoading();
+        location.reload();
+    }
+    
+    function cleanupCluster() {
+        if (!confirm('确定要清理离线节点和过期数据吗？')) {
+            return;
+        }
+        
+        showLoading();
+        ajaxRequest('/cluster/cleanup', 'POST')
+            .then(data => {
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error, 'danger');
+                } else {
+                    showMessage(`清理完成：移除 ${data.removed_nodes} 个离线节点，清理 ${data.cleaned_data} 条过期数据`, 'success');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('清理失败: ' + error.message, 'danger');
+            });
+    }
+    
+    function removeNode(nodeId) {
+        if (!confirm('确定要移除这个节点吗？')) {
+            return;
+        }
+        
+        showLoading();
+        ajaxRequest(`/cluster/nodes/${nodeId}`, 'DELETE')
+            .then(data => {
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error, 'danger');
+                } else {
+                    showMessage('节点移除成功', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('移除节点失败: ' + error.message, 'danger');
+            });
+    }
+    
+    function showNodeDetails(nodeId) {
+        const modal = new bootstrap.Modal(document.getElementById('nodeDetailsModal'));
+        modal.show();
+        
+        ajaxRequest(`/cluster/nodes/${nodeId}/details`)
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('nodeDetailsContent').innerHTML = 
+                        `<div class="alert alert-danger">${data.error}</div>`;
+                    return;
+                }
+                
+                const node = data.node;
+                const instances = data.instances || [];
+                
+                let html = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>基本信息</h6>
+                            <table class="table table-sm">
+                                <tr><td>节点ID</td><td><code>${node.node_id}</code></td></tr>
+                                <tr><td>节点名称</td><td>${node.node_name}</td></tr>
+                                <tr><td>IP地址</td><td><code>${node.ip_address || '-'}</code></td></tr>
+                                <tr><td>状态</td><td>
+                                    ${node.is_active ? 
+                                        '<span class="badge bg-success">在线</span>' : 
+                                        '<span class="badge bg-danger">离线</span>'}
+                                </td></tr>
+                                <tr><td>最后心跳</td><td>${node.last_heartbeat || '-'}</td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>系统资源</h6>
+                            <table class="table table-sm">
+                                <tr><td>CPU使用率</td><td>${node.cpu_usage ? node.cpu_usage.toFixed(1) + '%' : '-'}</td></tr>
+                                <tr><td>内存使用率</td><td>${node.memory_usage ? node.memory_usage.toFixed(1) + '%' : '-'}</td></tr>
+                                <tr><td>负载平均值</td><td>${node.load_average ? node.load_average.toFixed(2) : '-'}</td></tr>
+                                <tr><td>磁盘使用率</td><td>${node.disk_usage ? node.disk_usage.toFixed(1) + '%' : '-'}</td></tr>
+                                <tr><td>网络IO</td><td>${node.network_io ? formatBytes(node.network_io) + '/s' : '-'}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                
+                if (instances.length > 0) {
+                    html += `
+                        <hr>
+                        <h6>运行实例 (${instances.length})</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>实例ID</th>
+                                        <th>任务名称</th>
+                                        <th>状态</th>
+                                        <th>端口</th>
+                                        <th>启动时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+                    
+                    instances.forEach(instance => {
+                        html += `
+                            <tr>
+                                <td><code>${instance.instance_id.substring(0, 8)}</code></td>
+                                <td>${instance.task_name}</td>
+                                <td>
+                                    <span class="badge ${instance.status === 'running' ? 'bg-success' : 'bg-secondary'}">
+                                        ${instance.status}
+                                    </span>
+                                </td>
+                                <td>${instance.port || '-'}</td>
+                                <td>${instance.start_time || '-'}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('nodeDetailsContent').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('nodeDetailsContent').innerHTML = 
+                    `<div class="alert alert-danger">加载节点详情失败: ${error.message}</div>`;
+            });
+    }
+    
+    function initCharts() {
+        // 任务分布饼图
+        {% if task_distribution %}
+        const taskCtx = document.getElementById('taskDistributionChart').getContext('2d');
+        const taskData = {
+            labels: [{% for task in task_distribution %}'{{ task.task_name }}'{% if not loop.last %},{% endif %}{% endfor %}],
+            datasets: [{
+                data: [{% for task in task_distribution %}{{ task.instance_count }}{% if not loop.last %},{% endif %}{% endfor %}],
+                backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                    '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
+                ]
+            }]
+        };
+        
+        taskChart = new Chart(taskCtx, {
+            type: 'doughnut',
+            data: taskData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        {% endif %}
+        
+        // CPU使用率趋势图
+        const cpuCtx = document.getElementById('cpuChart').getContext('2d');
+        cpuChart = new Chart(cpuCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: '平均CPU使用率',
+                    data: [],
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 内存使用率趋势图
+        const memoryCtx = document.getElementById('memoryChart').getContext('2d');
+        memoryChart = new Chart(memoryCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: '平均内存使用率',
+                    data: [],
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function updateCharts() {
+        ajaxRequest('/api/cluster/metrics')
+            .then(data => {
+                if (data.error) return;
+                
+                const now = new Date().toLocaleTimeString();
+                
+                // 更新CPU图表
+                if (cpuChart && data.avg_cpu !== undefined) {
+                    cpuChart.data.labels.push(now);
+                    cpuChart.data.datasets[0].data.push(data.avg_cpu);
+                    
+                    // 保持最近20个数据点
+                    if (cpuChart.data.labels.length > 20) {
+                        cpuChart.data.labels.shift();
+                        cpuChart.data.datasets[0].data.shift();
+                    }
+                    
+                    cpuChart.update('none');
+                }
+                
+                // 更新内存图表
+                if (memoryChart && data.avg_memory !== undefined) {
+                    memoryChart.data.labels.push(now);
+                    memoryChart.data.datasets[0].data.push(data.avg_memory);
+                    
+                    // 保持最近20个数据点
+                    if (memoryChart.data.labels.length > 20) {
+                        memoryChart.data.labels.shift();
+                        memoryChart.data.datasets[0].data.shift();
+                    }
+                    
+                    memoryChart.update('none');
+                }
+            })
+            .catch(error => {
+                console.error('更新图表数据失败:', error);
+            });
+    }
+    
+    function formatBytes(bytes) {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        initCharts();
+        
+        // 每30秒更新一次图表数据
+        refreshInterval = setInterval(updateCharts, 30000);
+        
+        // 立即更新一次
+        updateCharts();
+    });
+    
+    // 页面卸载时清理定时器
+    window.addEventListener('beforeunload', function() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+    });
+</script>
+
+<style>
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.progress {
+    border-radius: 10px;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    font-size: 11px;
+    line-height: 20px;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    background-color: #f8f9fa;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+code {
+    font-size: 0.875em;
+    color: #e83e8c;
+    background-color: #f8f9fa;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+}
+
+.btn-group-sm .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+canvas {
+    max-height: 200px;
+}
+</style>
+{% endblock %}

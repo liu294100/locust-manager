@@ -1,0 +1,615 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.name }} - 任务详情{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">仪表板</a></li>
+<li class="breadcrumb-item"><a href="{{ url_for('tasks') }}">任务管理</a></li>
+<li class="breadcrumb-item active">{{ task.name }}</li>
+{% endblock %}
+
+{% block content %}
+<!-- 任务头部信息 -->
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <h2>{{ task.name }}</h2>
+        <p class="text-muted mb-0">{{ task.description or '暂无描述' }}</p>
+    </div>
+    <div class="d-flex gap-2">
+        <span class="badge bg-{{ 'success' if task.status == 'running' else 'secondary' if task.status == 'stopped' else 'warning' if task.status == 'pending' else 'danger' }} fs-6">
+            {{ task.status }}
+        </span>
+        
+        {% if task.status == 'stopped' or task.status == 'pending' %}
+        <button class="btn btn-success" onclick="startTask()">
+            <i class="fas fa-play"></i>
+            启动任务
+        </button>
+        {% endif %}
+        
+        {% if task.status == 'running' %}
+        <button class="btn btn-warning" onclick="stopTask()">
+            <i class="fas fa-stop"></i>
+            停止任务
+        </button>
+        {% endif %}
+        
+        {% if current_user.is_admin or task.created_by == current_user.username %}
+        <button class="btn btn-outline-danger" onclick="deleteTask()">
+            <i class="fas fa-trash"></i>
+            删除任务
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <!-- 左侧：任务信息和配置 -->
+    <div class="col-lg-4 mb-4">
+        <!-- 基本信息 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle text-primary"></i>
+                    基本信息
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td class="text-muted">任务ID:</td>
+                        <td><code>{{ task.id }}</code></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">目标地址:</td>
+                        <td>
+                            <a href="{{ task.target_host }}" target="_blank" class="text-decoration-none">
+                                {{ task.target_host }}
+                                <i class="fas fa-external-link-alt fa-sm"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">脚本文件:</td>
+                        <td>
+                            {% if task.script_file %}
+                            <a href="{{ url_for('view_script_by_filename', filename=task.script_file) }}" class="text-decoration-none">
+                                <i class="fas fa-file-code"></i>
+                                {{ task.script_file }}
+                            </a>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">创建者:</td>
+                        <td>{{ task.created_by or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">创建时间:</td>
+                        <td>
+                            {% if task.created_at %}
+                            <span title="{{ task.created_at.strftime('%Y-%m-%d %H:%M:%S') }}">
+                                {{ task.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            </span>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">最后更新:</td>
+                        <td>
+                            {% if task.updated_at %}
+                            <span title="{{ task.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}">
+                                {{ task.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                            </span>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 压测配置 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-cogs text-warning"></i>
+                    压测配置
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td class="text-muted">用户数量:</td>
+                        <td><strong>{{ task.users or 1 }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">启动速率:</td>
+                        <td>{{ task.spawn_rate or 1 }} 用户/秒</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">运行时长:</td>
+                        <td>{{ task.run_time + ' 秒' if task.run_time else '不限制' }}</td>
+                    </tr>
+                    {% if task.host_override %}
+                    <tr>
+                        <td class="text-muted">Host覆盖:</td>
+                        <td><code>{{ task.host_override }}</code></td>
+                    </tr>
+                    {% endif %}
+                    {% if task.tags %}
+                    <tr>
+                        <td class="text-muted">标签:</td>
+                        <td>
+                            {% for tag in task.tags.split(',') %}
+                            <span class="badge bg-secondary me-1">{{ tag.strip() }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% if task.extra_args %}
+                    <tr>
+                        <td class="text-muted">额外参数:</td>
+                        <td><code>{{ task.extra_args }}</code></td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        
+        <!-- 运行实例 -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-server text-info"></i>
+                    运行实例
+                </h5>
+                <button class="btn btn-sm btn-outline-primary" onclick="refreshInstances()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="instancesList">
+                    <div class="text-center">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        加载中...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 右侧：监控和统计 -->
+    <div class="col-lg-8">
+        <!-- 实时统计 -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line text-success"></i>
+                    实时统计
+                </h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" onclick="refreshStats()">
+                        <i class="fas fa-sync-alt"></i>
+                        刷新
+                    </button>
+                    {% if task.status == 'running' and instances %}
+                    <a href="{{ url_for('proxy_instance', instance_id=instances[0].instance_id) }}" 
+                       target="_blank" class="btn btn-sm btn-outline-info">
+                        <i class="fas fa-external-link-alt"></i>
+                        Locust UI
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="statsContainer">
+                    <div class="text-center py-4">
+                        <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">暂无统计数据</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 性能图表 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-area text-info"></i>
+                    性能趋势
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="performanceChart" height="300"></canvas>
+            </div>
+        </div>
+        
+        <!-- 测试结果历史 -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history text-secondary"></i>
+                    测试结果历史
+                </h5>
+                <button class="btn btn-sm btn-outline-primary" onclick="refreshResults()">
+                    <i class="fas fa-sync-alt"></i>
+                    刷新
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="resultsContainer">
+                    <div class="text-center">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        加载中...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const taskId = {{ task.id }};
+    let performanceChart = null;
+    let refreshInterval = null;
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        initPerformanceChart();
+        refreshInstances();
+        refreshStats();
+        refreshResults();
+        
+        // 如果任务正在运行，启动自动刷新
+        {% if task.status == 'running' %}
+        startAutoRefresh();
+        {% endif %}
+    });
+    
+    function startTask() {
+        if (!confirm('确定要启动这个任务吗？')) {
+            return;
+        }
+        
+        showLoading();
+        ajaxRequest(`/tasks/${taskId}/start`, 'POST')
+            .then(data => {
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error, 'danger');
+                } else {
+                    showMessage('任务启动成功', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('启动任务失败: ' + error.message, 'danger');
+            });
+    }
+    
+    function stopTask() {
+        if (!confirm('确定要停止这个任务吗？')) {
+            return;
+        }
+        
+        showLoading();
+        ajaxRequest(`/tasks/${taskId}/stop`, 'POST')
+            .then(data => {
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error, 'danger');
+                } else {
+                    showMessage('任务停止成功', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('停止任务失败: ' + error.message, 'danger');
+            });
+    }
+    
+    function deleteTask() {
+        if (!confirm('确定要删除这个任务吗？此操作不可恢复！')) {
+            return;
+        }
+        
+        showLoading();
+        ajaxRequest(`/tasks/${taskId}`, 'DELETE')
+            .then(data => {
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error, 'danger');
+                } else {
+                    showMessage('任务删除成功', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/tasks';
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('删除任务失败: ' + error.message, 'danger');
+            });
+    }
+    
+    function refreshInstances() {
+        ajaxRequest(`/api/tasks/${taskId}/instances`)
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('instancesList').innerHTML = 
+                        `<div class="text-danger">加载失败: ${data.error}</div>`;
+                    return;
+                }
+                
+                const instances = data.instances || [];
+                let html = '';
+                
+                if (instances.length === 0) {
+                    html = '<div class="text-muted text-center py-3">暂无运行实例</div>';
+                } else {
+                    instances.forEach(instance => {
+                        const statusClass = instance.status === 'running' ? 'success' : 
+                                          instance.status === 'starting' ? 'warning' : 'secondary';
+                        html += `
+                            <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+                                <div>
+                                    <strong>实例 ${instance.instance_id.substring(0, 8)}</strong>
+                                    <br><small class="text-muted">端口: ${instance.port}</small>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-${statusClass}">${instance.status}</span>
+                                    ${instance.status === 'running' ? `
+                                        <br><a href="/instances/${instance.instance_id}/proxy" target="_blank" 
+                                               class="btn btn-sm btn-outline-primary mt-1">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                document.getElementById('instancesList').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('instancesList').innerHTML = 
+                    `<div class="text-danger">加载失败: ${error.message}</div>`;
+            });
+    }
+    
+    function refreshStats() {
+        ajaxRequest(`/api/tasks/${taskId}/stats`)
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('statsContainer').innerHTML = 
+                        `<div class="text-danger">加载失败: ${data.error}</div>`;
+                    return;
+                }
+                
+                const stats = data.stats;
+                if (!stats || Object.keys(stats).length === 0) {
+                    document.getElementById('statsContainer').innerHTML = `
+                        <div class="text-center py-4">
+                            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">暂无统计数据</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 显示统计数据
+                const html = `
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-primary">${stats.current_users || 0}</h4>
+                            <small class="text-muted">当前用户数</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-success">${stats.total_requests || 0}</h4>
+                            <small class="text-muted">总请求数</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-info">${(stats.requests_per_second || 0).toFixed(1)}</h4>
+                            <small class="text-muted">RPS</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-warning">${(stats.average_response_time || 0).toFixed(0)}ms</h4>
+                            <small class="text-muted">平均响应时间</small>
+                        </div>
+                    </div>
+                    ${stats.failure_rate ? `
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                失败率: ${(stats.failure_rate * 100).toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+                `;
+                
+                document.getElementById('statsContainer').innerHTML = html;
+                
+                // 更新图表
+                updatePerformanceChart(stats);
+            })
+            .catch(error => {
+                document.getElementById('statsContainer').innerHTML = 
+                    `<div class="text-danger">加载失败: ${error.message}</div>`;
+            });
+    }
+    
+    function refreshResults() {
+        ajaxRequest(`/api/tasks/${taskId}/results`)
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('resultsContainer').innerHTML = 
+                        `<div class="text-danger">加载失败: ${data.error}</div>`;
+                    return;
+                }
+                
+                const results = data.results || [];
+                let html = '';
+                
+                if (results.length === 0) {
+                    html = '<div class="text-muted text-center py-3">暂无测试结果</div>';
+                } else {
+                    html = `
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>开始时间</th>
+                                        <th>结束时间</th>
+                                        <th>用户数</th>
+                                        <th>总请求</th>
+                                        <th>失败数</th>
+                                        <th>RPS</th>
+                                        <th>平均响应时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+                    
+                    results.forEach(result => {
+                        html += `
+                            <tr>
+                                <td>${new Date(result.start_time).toLocaleString()}</td>
+                                <td>${result.end_time ? new Date(result.end_time).toLocaleString() : '运行中'}</td>
+                                <td>${result.users}</td>
+                                <td>${result.total_requests}</td>
+                                <td class="${result.total_failures > 0 ? 'text-danger' : ''}">${result.total_failures}</td>
+                                <td>${(result.requests_per_second || 0).toFixed(1)}</td>
+                                <td>${(result.average_response_time || 0).toFixed(0)}ms</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    html += '</tbody></table></div>';
+                }
+                
+                document.getElementById('resultsContainer').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('resultsContainer').innerHTML = 
+                    `<div class="text-danger">加载失败: ${error.message}</div>`;
+            });
+    }
+    
+    function initPerformanceChart() {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'RPS',
+                        data: [],
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '响应时间 (ms)',
+                        data: [],
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        tension: 0.1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '时间'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'RPS'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: '响应时间 (ms)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    }
+                }
+            }
+        });
+    }
+    
+    function updatePerformanceChart(stats) {
+        if (!performanceChart) return;
+        
+        const now = new Date().toLocaleTimeString();
+        const maxPoints = 20;
+        
+        // 添加新数据点
+        performanceChart.data.labels.push(now);
+        performanceChart.data.datasets[0].data.push(stats.requests_per_second || 0);
+        performanceChart.data.datasets[1].data.push(stats.average_response_time || 0);
+        
+        // 保持最多20个数据点
+        if (performanceChart.data.labels.length > maxPoints) {
+            performanceChart.data.labels.shift();
+            performanceChart.data.datasets[0].data.shift();
+            performanceChart.data.datasets[1].data.shift();
+        }
+        
+        performanceChart.update('none');
+    }
+    
+    function startAutoRefresh() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+        
+        refreshInterval = setInterval(() => {
+            refreshStats();
+            refreshInstances();
+        }, 5000);
+    }
+    
+    function stopAutoRefresh() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+            refreshInterval = null;
+        }
+    }
+    
+    // 页面离开时清理定时器
+    window.addEventListener('beforeunload', stopAutoRefresh);
+</script>
+{% endblock %}

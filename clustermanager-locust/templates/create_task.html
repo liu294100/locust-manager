@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}创建任务 - 压测服务管理器{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">仪表板</a></li>
+<li class="breadcrumb-item"><a href="{{ url_for('tasks') }}">任务管理</a></li>
+<li class="breadcrumb-item active">创建任务</li>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-plus-circle text-primary"></i>
+                    创建压测任务
+                </h4>
+            </div>
+            <div class="card-body">
+                <form id="createTaskForm" method="POST">
+                    <!-- 基本信息 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-info-circle text-info"></i>
+                                基本信息
+                            </h5>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">任务名称 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required
+                                   placeholder="输入任务名称">
+                            <div class="form-text">任务的唯一标识名称</div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="target_host" class="form-label">目标地址 <span class="text-danger">*</span></label>
+                            <input type="url" class="form-control" id="target_host" name="target_host" required
+                                   placeholder="http://example.com">
+                            <div class="form-text">压测目标的完整URL地址</div>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="description" class="form-label">任务描述</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                      placeholder="描述这个压测任务的目的和内容"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- 脚本配置 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-file-code text-success"></i>
+                                脚本配置
+                            </h5>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="script_file" class="form-label">Locust脚本 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="script_file" name="script_file" required>
+                                <option value="">请选择脚本文件</option>
+                                {% for script in scripts %}
+                                <option value="{{ script.filename }}">{{ script.filename }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">
+                                选择要使用的Locust测试脚本
+                                {% if not scripts %}
+                                <span class="text-warning">
+                                    - 暂无可用脚本，请先 <a href="{{ url_for('upload_script') }}">上传脚本</a>
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        {% if scripts %}
+                        <div class="col-12 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title">脚本预览</h6>
+                                    <div id="scriptPreview" class="text-muted">
+                                        请选择脚本文件查看内容
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- 压测参数 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-cogs text-warning"></i>
+                                压测参数
+                            </h5>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="users" class="form-label">用户数量 <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="users" name="users" 
+                                   min="1" max="10000" value="10" required>
+                            <div class="form-text">并发用户数量 (1-10000)</div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="spawn_rate" class="form-label">启动速率</label>
+                            <input type="number" class="form-control" id="spawn_rate" name="spawn_rate" 
+                                   min="0.1" max="1000" step="0.1" value="1">
+                            <div class="form-text">每秒启动用户数</div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="run_time" class="form-label">运行时长 (秒)</label>
+                            <input type="number" class="form-control" id="run_time" name="run_time" 
+                                   min="0" placeholder="不限制">
+                            <div class="form-text">留空表示手动停止</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 高级配置 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-sliders-h text-secondary"></i>
+                                高级配置
+                                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" 
+                                        data-bs-toggle="collapse" data-bs-target="#advancedConfig">
+                                    <i class="fas fa-chevron-down"></i>
+                                    展开/收起
+                                </button>
+                            </h5>
+                        </div>
+                        
+                        <div class="collapse" id="advancedConfig">
+                            <div class="col-md-6 mb-3">
+                                <label for="host_override" class="form-label">Host覆盖</label>
+                                <input type="text" class="form-control" id="host_override" name="host_override"
+                                       placeholder="覆盖脚本中的host设置">
+                                <div class="form-text">可选：覆盖脚本中定义的host</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="tags" class="form-label">标签</label>
+                                <input type="text" class="form-control" id="tags" name="tags"
+                                       placeholder="tag1,tag2,tag3">
+                                <div class="form-text">用逗号分隔的标签，用于分类管理</div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <label for="extra_args" class="form-label">额外参数</label>
+                                <textarea class="form-control" id="extra_args" name="extra_args" rows="2"
+                                          placeholder="--headless --csv=results"></textarea>
+                                <div class="form-text">传递给Locust的额外命令行参数</div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="auto_start" name="auto_start">
+                                    <label class="form-check-label" for="auto_start">
+                                        创建后自动启动
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 提交按钮 -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ url_for('tasks') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i>
+                                    返回
+                                </a>
+                                <div>
+                                    <button type="button" class="btn btn-outline-primary me-2" onclick="previewTask()">
+                                        <i class="fas fa-eye"></i>
+                                        预览
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i>
+                                        创建任务
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 预览模态框 -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">任务预览</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="previewContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">确认创建</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 格式化字节大小的工具函数
+    function formatBytes(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // 脚本预览功能
+    document.getElementById('script_file').addEventListener('change', function() {
+        const filename = this.value;
+        const previewDiv = document.getElementById('scriptPreview');
+        
+        if (!filename) {
+            previewDiv.innerHTML = '<span class="text-muted">请选择脚本文件查看内容</span>';
+            return;
+        }
+        
+        previewDiv.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin"></i> 加载中...</div>';
+        
+        ajaxRequest(`/scripts/${filename}/content`)
+            .then(data => {
+                if (data.error) {
+                    previewDiv.innerHTML = `<span class="text-danger">加载失败: ${data.error}</span>`;
+                } else {
+                    const content = data.content.substring(0, 500);
+                    const truncated = data.content.length > 500;
+                    previewDiv.innerHTML = `
+                        <pre class="bg-dark text-light p-3 rounded" style="max-height: 200px; overflow-y: auto;"><code>${escapeHtml(content)}${truncated ? '\n\n... (内容已截断)' : ''}</code></pre>
+                        <div class="mt-2">
+                            <small class="text-muted">文件大小: ${formatBytes(data.size)} | 最后修改: ${new Date(data.modified).toLocaleString()}</small>
+                            <a href="/scripts/${filename}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">
+                                <i class="fas fa-external-link-alt"></i> 查看完整内容
+                            </a>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                previewDiv.innerHTML = `<span class="text-danger">加载失败: ${error.message}</span>`;
+            });
+    });
+    
+    // 表单验证
+    document.getElementById('createTaskForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!validateForm()) {
+            return;
+        }
+        
+        submitForm();
+    });
+    
+    function validateForm() {
+        const form = document.getElementById('createTaskForm');
+        const formData = new FormData(form);
+        
+        // 基本验证
+        if (!formData.get('name').trim()) {
+            showMessage('请输入任务名称', 'warning');
+            return false;
+        }
+        
+        if (!formData.get('target_host').trim()) {
+            showMessage('请输入目标地址', 'warning');
+            return false;
+        }
+        
+        if (!formData.get('script_file')) {
+            showMessage('请选择脚本文件', 'warning');
+            return false;
+        }
+        
+        const users = parseInt(formData.get('users'));
+        if (!users || users < 1 || users > 10000) {
+            showMessage('用户数量必须在1-10000之间', 'warning');
+            return false;
+        }
+        
+        // URL验证
+        try {
+            new URL(formData.get('target_host'));
+        } catch {
+            showMessage('请输入有效的目标地址URL', 'warning');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    function previewTask() {
+        if (!validateForm()) {
+            return;
+        }
+        
+        const form = document.getElementById('createTaskForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        
+        // 生成预览内容
+        const previewHtml = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>基本信息</h6>
+                    <table class="table table-sm">
+                        <tr><td>任务名称:</td><td><strong>${escapeHtml(data.name)}</strong></td></tr>
+                        <tr><td>目标地址:</td><td><code>${escapeHtml(data.target_host)}</code></td></tr>
+                        <tr><td>描述:</td><td>${escapeHtml(data.description || '无')}</td></tr>
+                        <tr><td>脚本文件:</td><td><code>${escapeHtml(data.script_file)}</code></td></tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6>压测参数</h6>
+                    <table class="table table-sm">
+                        <tr><td>用户数量:</td><td><strong>${data.users}</strong></td></tr>
+                        <tr><td>启动速率:</td><td>${data.spawn_rate || '1'} 用户/秒</td></tr>
+                        <tr><td>运行时长:</td><td>${data.run_time ? data.run_time + ' 秒' : '不限制'}</td></tr>
+                        <tr><td>自动启动:</td><td>${data.auto_start ? '是' : '否'}</td></tr>
+                    </table>
+                </div>
+            </div>
+            ${data.host_override || data.tags || data.extra_args ? `
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6>高级配置</h6>
+                    <table class="table table-sm">
+                        ${data.host_override ? `<tr><td>Host覆盖:</td><td><code>${escapeHtml(data.host_override)}</code></td></tr>` : ''}
+                        ${data.tags ? `<tr><td>标签:</td><td>${escapeHtml(data.tags)}</td></tr>` : ''}
+                        ${data.extra_args ? `<tr><td>额外参数:</td><td><code>${escapeHtml(data.extra_args)}</code></td></tr>` : ''}
+                    </table>
+                </div>
+            </div>
+            ` : ''}
+        `;
+        
+        document.getElementById('previewContent').innerHTML = previewHtml;
+        new bootstrap.Modal(document.getElementById('previewModal')).show();
+    }
+    
+    function submitForm() {
+        const form = document.getElementById('createTaskForm');
+        const formData = new FormData(form);
+        
+        showLoading();
+        
+        ajaxRequest('/tasks/create', 'POST', Object.fromEntries(formData.entries()))
+            .then(data => {
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error, 'danger');
+                } else {
+                    showMessage('任务创建成功', 'success');
+                    setTimeout(() => {
+                        window.location.href = `/tasks/${data.task_id}`;
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('创建任务失败: ' + error.message, 'danger');
+            });
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // 参数联动
+    document.getElementById('users').addEventListener('input', function() {
+        const users = parseInt(this.value);
+        const spawnRateInput = document.getElementById('spawn_rate');
+        
+        if (users && users > 100) {
+            // 建议启动速率
+            const suggestedRate = Math.min(Math.ceil(users / 10), 50);
+            if (!spawnRateInput.value || parseFloat(spawnRateInput.value) < suggestedRate) {
+                spawnRateInput.value = suggestedRate;
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,835 @@
+2025-10-08 20:52:19,178 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8088
+ * Running on http://192.168.50.193:8088
+2025-10-08 20:52:19,209 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-08 20:52:19,236 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:52:20,128 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:52:20,177 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:52:26,222 - root - ERROR - Ó¦ÓÃ³õÊ¼»¯Ê§°Ü: 'DatabaseManager' object has no attribute 'connect'
+2025-10-08 20:52:26,235 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:26] "[32mGET /?ide_webview_request_time=1759927946081 HTTP/1.1[0m" 302 -
+2025-10-08 20:52:26,242 - root - ERROR - Ó¦ÓÃ³õÊ¼»¯Ê§°Ü: 'DatabaseManager' object has no attribute 'connect'
+2025-10-08 20:52:26,322 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:26] "GET /login HTTP/1.1" 200 -
+2025-10-08 20:52:27,868 - root - ERROR - Ó¦ÓÃ³õÊ¼»¯Ê§°Ü: 'DatabaseManager' object has no attribute 'connect'
+2025-10-08 20:52:27,906 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\flask\\app.py', reloading
+2025-10-08 20:52:27,924 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\flask\\templating.py', reloading
+2025-10-08 20:52:27,950 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\jinja2\\environment.py', reloading
+2025-10-08 20:52:27,969 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\jinja2\\loaders.py', reloading
+2025-10-08 20:52:27,990 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\flask\\ctx.py', reloading
+2025-10-08 20:52:28,016 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\werkzeug\\routing\\map.py', reloading
+2025-10-08 20:52:28,039 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\werkzeug\\routing\\matcher.py', reloading
+2025-10-08 20:52:28,096 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:28] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:52:28,435 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:52:29,619 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:52:29,625 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:52:41,143 - root - ERROR - Ó¦ÓÃ³õÊ¼»¯Ê§°Ü: 'DatabaseManager' object has no attribute 'connect'
+2025-10-08 20:52:41,298 - app.database - ERROR - Êý¾Ý¿âÁ¬½ÓÊ§°Ü: (1049, "Unknown database 'locust_manager'")
+2025-10-08 20:52:41,299 - app.database - ERROR - SQLÖ´ÐÐÊ§°Ü: (1049, "Unknown database 'locust_manager'"), Query: 
+                SELECT id, username, email, role, is_active 
+                FROM users 
+                WHERE username = %s AND password_hash = %s AND is_active = TRUE
+            
+2025-10-08 20:52:41,323 - app.database - ERROR - ÓÃ»§ÑéÖ¤Ê§°Ü: (1049, "Unknown database 'locust_manager'")
+2025-10-08 20:52:41,342 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:41] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-10-08 20:52:41,577 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:41] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-08 20:52:41,583 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:41] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-08 20:52:41,608 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:41] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-08 20:52:41,649 - root - ERROR - Ó¦ÓÃ³õÊ¼»¯Ê§°Ü: 'DatabaseManager' object has no attribute 'connect'
+2025-10-08 20:52:41,689 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:52:41] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:53:27,479 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 20:53:27,482 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 20:53:27,624 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 20:53:27,625 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 20:53:28,190 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:53:29,306 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:53:29,315 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:54:08,794 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:08,835 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:08,836 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:08,908 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:08,910 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:09,743 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:54:10,712 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:54:10,719 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:54:26,034 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:26,036 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:26,153 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:26,154 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\init_db.py', reloading
+2025-10-08 20:54:26,950 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:54:28,031 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:54:28,038 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:54:48,776 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:54:48,788 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:54:48,937 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:54:48,938 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:54:49,312 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:54:50,233 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:54:50,239 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:55:00,221 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 20:55:00,270 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 20:55:00,271 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 20:55:00,272 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:55:00] "[32mGET /?ide_webview_request_time=1759928100208 HTTP/1.1[0m" 302 -
+2025-10-08 20:55:00,328 - werkzeug - INFO -  * Detected change in 'C:\\Users\\liu29\\AppData\\Roaming\\Python\\Python312\\site-packages\\pymysql\\connections.py', reloading
+2025-10-08 20:55:00,344 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:55:00] "GET /login HTTP/1.1" 200 -
+2025-10-08 20:55:01,442 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:55:02,308 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:55:02,313 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:55:39,487 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 20:55:39,488 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 20:55:39,659 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:55:40,640 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:55:40,647 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:55:54,441 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 20:55:54,443 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 20:55:54,443 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 20:55:54,445 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:55:54] "[32mGET /?ide_webview_request_time=1759928154429 HTTP/1.1[0m" 302 -
+2025-10-08 20:55:54,464 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:55:54] "GET /login HTTP/1.1" 200 -
+2025-10-08 20:55:54,542 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:55:54] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:56:09,186 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:56:09] "POST /login HTTP/1.1" 200 -
+2025-10-08 20:56:09,275 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:56:09] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:56:19,403 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:56:19] "POST /login HTTP/1.1" 200 -
+2025-10-08 20:56:19,503 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:56:19] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:57:42,638 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\fix_admin_password.py', reloading
+2025-10-08 20:57:42,687 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\fix_admin_password.py', reloading
+2025-10-08 20:57:42,688 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\fix_admin_password.py', reloading
+2025-10-08 20:57:42,862 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:57:44,065 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:57:44,074 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:57:59,998 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 20:57:59,999 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 20:57:59,999 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 20:58:00,001 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:00] "[32mGET /?ide_webview_request_time=1759928279985 HTTP/1.1[0m" 302 -
+2025-10-08 20:58:00,028 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:00] "GET /login HTTP/1.1" 200 -
+2025-10-08 20:58:00,130 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:00] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:58:08,694 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:08] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-08 20:58:08,804 - root - ERROR - »ñÈ¡ÒÇ±í°åÊý¾ÝÊ§°Ü: 'DatabaseManager' object has no attribute 'get_recent_tasks'
+2025-10-08 20:58:08,896 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:08] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-10-08 20:58:09,135 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:09] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-08 20:58:09,138 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:09] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-08 20:58:09,154 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:09] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-08 20:58:09,224 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:09] "[35m[1mGET /@vite/client HTTP/1.1[0m" 500 -
+2025-10-08 20:58:43,747 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\fix_admin_password.py', reloading
+2025-10-08 20:58:44,712 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:58:45,916 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:58:45,925 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 20:58:48,869 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 20:58:48,870 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 20:58:48,870 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 20:58:48,882 - root - ERROR - »ñÈ¡ÒÇ±í°åÊý¾ÝÊ§°Ü: 'DatabaseManager' object has no attribute 'get_recent_tasks'
+2025-10-08 20:58:49,062 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:49] "[35m[1mGET /?ide_webview_request_time=1759928328852 HTTP/1.1[0m" 500 -
+2025-10-08 20:58:49,293 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:49] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-08 20:58:49,294 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:49] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-08 20:58:49,320 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:49] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-08 20:58:49,362 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 20:58:49] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 20:59:40,216 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:59:40,217 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:59:40,368 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:59:40,369 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 20:59:40,765 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 20:59:42,313 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 20:59:42,319 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:00:39,582 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:00:39,590 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:00:39,809 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:00:40,729 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:00:40,737 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:01:05,537 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:01:05,538 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:01:05,539 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:01:05,618 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:05] "GET /?ide_webview_request_time=1759928465526 HTTP/1.1" 200 -
+2025-10-08 21:01:06,106 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:06] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:01:07,111 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:07] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:01:36,101 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:36] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:01:38,734 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:01:38,783 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:38] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:01:38,870 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:38] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:01:41,627 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:01:41,672 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:41] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:01:41,738 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:41] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:01:43,164 - root - ERROR - »ñÈ¡ÊµÀýÁÐ±íÊ§°Ü: 'stats' is undefined
+2025-10-08 21:01:43,196 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:43] "[35m[1mGET /instances HTTP/1.1[0m" 500 -
+2025-10-08 21:01:43,425 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:43] "GET /instances?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-08 21:01:43,432 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:43] "GET /instances?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-08 21:01:43,475 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:43] "GET /instances?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-08 21:01:43,510 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:01:43] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:02,438 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:02:02,440 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:02] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:02:02,529 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:02] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:04,188 - root - ERROR - »ñÈ¡ÊµÀýÁÐ±íÊ§°Ü: 'stats' is undefined
+2025-10-08 21:02:04,229 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:04] "[35m[1mGET /instances HTTP/1.1[0m" 500 -
+2025-10-08 21:02:04,250 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:04] "[36mGET /instances?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-08 21:02:04,250 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:04] "[36mGET /instances?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-08 21:02:04,270 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:04] "[36mGET /instances?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-08 21:02:04,308 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:04] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:06,368 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:02:06,370 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:06] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:02:06,433 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:06] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:07,424 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:07] "GET / HTTP/1.1" 200 -
+2025-10-08 21:02:07,488 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:07] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:08,487 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:08] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:02:13,554 - root - ERROR - »ñÈ¡ÊµÀýÁÐ±íÊ§°Ü: 'stats' is undefined
+2025-10-08 21:02:13,606 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:13] "[35m[1mGET /instances HTTP/1.1[0m" 500 -
+2025-10-08 21:02:13,626 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:13] "[36mGET /instances?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-08 21:02:13,629 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:13] "[36mGET /instances?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-08 21:02:13,662 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:13] "[36mGET /instances?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-08 21:02:13,696 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:13] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:15,893 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:15] "GET / HTTP/1.1" 200 -
+2025-10-08 21:02:15,956 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:15] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:16,707 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:02:16,708 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:16] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:02:16,779 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:16] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:18,254 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:18] "[35m[1mGET /tasks/create HTTP/1.1[0m" 500 -
+2025-10-08 21:02:18,273 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:18] "GET /tasks/create?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-08 21:02:18,274 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:18] "GET /tasks/create?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-08 21:02:18,306 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:18] "GET /tasks/create?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-08 21:02:18,338 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:18] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:32,738 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:02:32,739 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:32] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:02:32,802 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:32] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:36,204 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:02:36,205 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:36] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:02:36,271 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:36] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:37,561 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:02:37,562 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:37] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:02:37,619 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:37] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:47,790 - root - ERROR - »ñÈ¡ÊµÀýÁÐ±íÊ§°Ü: 'stats' is undefined
+2025-10-08 21:02:47,846 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:47] "[35m[1mGET /instances HTTP/1.1[0m" 500 -
+2025-10-08 21:02:47,866 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:47] "[36mGET /instances?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-08 21:02:47,867 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:47] "[36mGET /instances?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-08 21:02:47,902 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:47] "[36mGET /instances?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-08 21:02:47,937 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:47] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:51,685 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:02:51,687 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:51] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:02:51,815 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:51] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:52,860 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:52] "GET / HTTP/1.1" 200 -
+2025-10-08 21:02:52,909 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:52] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:53,923 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:53] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:02:54,009 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:02:54,011 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:02:54,079 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:02:54,866 - root - ERROR - »ñÈ¡ÊµÀýÁÐ±íÊ§°Ü: 'stats' is undefined
+2025-10-08 21:02:54,906 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "[35m[1mGET /instances HTTP/1.1[0m" 500 -
+2025-10-08 21:02:54,926 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "[36mGET /instances?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-08 21:02:54,927 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "[36mGET /instances?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-08 21:02:54,953 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "[36mGET /instances?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-08 21:02:54,992 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:02:54] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:04:07,226 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:07,231 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:07,346 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:07,347 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:07,632 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:04:08,518 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:04:08,524 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:04:32,678 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:32,681 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:32,816 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:32,817 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:04:32,921 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:04:33,768 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:04:33,774 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:05:34,104 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:05:34,106 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:05:34,398 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:05:35,470 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:05:35,479 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:06:24,489 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8088
+ * Running on http://192.168.50.193:8088
+2025-10-08 21:06:24,490 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-08 21:06:24,517 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:06:25,717 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:06:25,734 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:06:29,942 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:06:29,944 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:06:29,945 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:06:29,946 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:29] "[32mGET /?ide_webview_request_time=1759928789583 HTTP/1.1[0m" 302 -
+2025-10-08 21:06:30,226 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:30] "GET /login HTTP/1.1" 200 -
+2025-10-08 21:06:30,455 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:30] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:39,882 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:39] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-08 21:06:40,174 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:40] "GET / HTTP/1.1" 200 -
+2025-10-08 21:06:40,271 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:40] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:41,584 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:41] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:06:43,582 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:43] "GET /instances?ide_webview_request_time=1759928803549 HTTP/1.1" 200 -
+2025-10-08 21:06:43,963 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:43] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:06:43,994 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:43] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:45,305 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:06:45,348 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:45] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:06:45,731 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:45] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:47,081 - root - ERROR - »ñÈ¡¼¯Èº×´Ì¬Ê§°Ü: 'RedisClusterManager' object has no attribute 'get_cluster_nodes'
+2025-10-08 21:06:47,144 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:47] "[35m[1mGET /cluster?ide_webview_request_time=1759928807075 HTTP/1.1[0m" 500 -
+2025-10-08 21:06:47,693 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:47] "GET /cluster?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-08 21:06:47,695 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:47] "GET /cluster?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-08 21:06:47,758 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:47] "GET /cluster?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-08 21:06:48,092 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:48] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:51,273 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:06:51,312 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:51] "GET /tasks?ide_webview_request_time=1759928811263 HTTP/1.1" 200 -
+2025-10-08 21:06:51,696 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:51] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:52,899 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:06:52,900 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:52] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:06:53,277 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:53] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:54,517 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:06:54,519 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:54] "GET /scripts?ide_webview_request_time=1759928814512 HTTP/1.1" 200 -
+2025-10-08 21:06:54,879 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:54] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:06:57,716 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:57] "[33mGET /create_task?ide_webview_request_time=1759928817710 HTTP/1.1[0m" 404 -
+2025-10-08 21:06:58,091 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:06:58] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:07:02,322 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:02] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:07:02,676 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:02] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:07:02,693 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:02] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:07:04,140 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:07:04,173 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:04] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:07:04,623 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:04] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:07:05,186 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:07:05,188 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:05] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:07:05,573 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:05] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:07:05,851 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:05] "GET / HTTP/1.1" 200 -
+2025-10-08 21:07:06,058 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:06] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:07:06,932 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:06] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:07:07,759 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\app\\database.py', reloading
+2025-10-08 21:07:08,201 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:07:09,199 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:07:09,206 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:07:37,224 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:07:37,224 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:07:37,226 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:07:37,226 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:07:48,006 - root - ERROR - »ñÈ¡ÈÎÎñÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_tasks_paginated'
+2025-10-08 21:07:48,056 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:48] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:07:48,437 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:48] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:07:48,543 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:07:48,558 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:07:48,657 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:07:48,657 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:07:49,623 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:07:50,591 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:07:50,601 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:07:51,429 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:07:51,430 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:07:51,431 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:07:51,431 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'DatabaseManager' object has no attribute 'get_all_script_files'
+2025-10-08 21:07:51,467 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:51] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:07:51,692 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:07:51] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:08:03,945 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:08:03,947 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:08:04,073 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:08:04,073 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:08:04,837 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:08:05,761 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:08:05,768 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:08:11,182 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\trader_locust_demo.py', reloading
+2025-10-08 21:08:11,188 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\trader_us_locust.py', reloading
+2025-10-08 21:08:11,189 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\trader_order_query.py', reloading
+2025-10-08 21:08:11,193 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\trader_option_us_locust.py', reloading
+2025-10-08 21:08:11,194 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\trader_locust_listbyaccountid.py', reloading
+2025-10-08 21:08:11,195 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\trader_locust.py', reloading
+2025-10-08 21:08:11,196 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_query_summary.py', reloading
+2025-10-08 21:08:11,197 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_modify_test.py', reloading
+2025-10-08 21:08:11,198 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_modify_list_locust.py', reloading
+2025-10-08 21:08:11,199 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_modify_2_test.py', reloading
+2025-10-08 21:08:11,200 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_fill_test.py', reloading
+2025-10-08 21:08:11,201 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_fees_locust.py', reloading
+2025-10-08 21:08:11,202 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_fees_calc_once.py', reloading
+2025-10-08 21:08:11,202 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_archive_summary.py', reloading
+2025-10-08 21:08:11,203 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_archive_page.py', reloading
+2025-10-08 21:08:11,204 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_archive_order_query.py', reloading
+2025-10-08 21:08:11,206 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_archive_modify.py', reloading
+2025-10-08 21:08:11,206 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_archive_fills.py', reloading
+2025-10-08 21:08:11,207 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\order_archive_fees.py', reloading
+2025-10-08 21:08:11,208 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\Trader\\listorder-dermo.py', reloading
+2025-10-08 21:08:11,209 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\quote\\quotelogin.py', reloading
+2025-10-08 21:08:11,211 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\quote\\option-expirations.py', reloading
+2025-10-08 21:08:11,211 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\list.py', reloading
+2025-10-08 21:08:11,212 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\maxBuy.py', reloading
+2025-10-08 21:08:11,214 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\optionChains.py', reloading
+2025-10-08 21:08:11,215 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\historical-pl.py', reloading
+2025-10-08 21:08:11,216 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\getBasicNav.py', reloading
+2025-10-08 21:08:11,217 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\historical-pl-all.py', reloading
+2025-10-08 21:08:11,218 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\balanceOrders.py', reloading
+2025-10-08 21:08:11,218 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\getAccountBalanceSummary.py', reloading
+2025-10-08 21:08:11,219 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\balanceDetail.py', reloading
+2025-10-08 21:08:11,220 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\scripts\\fund\\accountLogonTuple.py', reloading
+2025-10-08 21:08:11,222 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\app.py', reloading
+2025-10-08 21:08:11,223 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\app\\auth.py', reloading
+2025-10-08 21:08:11,224 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\app\\generate_init_sql.py', reloading
+2025-10-08 21:08:11,225 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\app\\__init__.py', reloading
+2025-10-08 21:08:11,226 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\ref\\chief-stresstest-locust\\app\\config.py', reloading
+2025-10-08 21:08:11,957 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:08:12,924 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:08:12,933 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:08:14,638 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:08:14,639 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:08:14,639 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:08:14,729 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:14] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:08:14,910 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:14] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:08:16,805 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:16] "GET / HTTP/1.1" 200 -
+2025-10-08 21:08:17,164 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:17] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:08:17,871 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:17] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:08:18,161 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:18] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:08:18,655 - app.database - ERROR - SQLÖ´ÐÐÊ§°Ü: (1054, "Unknown column 's.upload_time' in 'order clause'"), Query: 
+                SELECT s.*, u.username as uploaded_by_name 
+                FROM script_files s 
+                LEFT JOIN users u ON s.uploaded_by = u.id 
+                WHERE 1=1
+             ORDER BY s.upload_time DESC
+2025-10-08 21:08:18,655 - app.database - ERROR - »ñÈ¡½Å±¾ÎÄ¼þÁÐ±íÊ§°Ü: (1054, "Unknown column 's.upload_time' in 'order clause'")
+2025-10-08 21:08:18,703 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:18] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:08:19,082 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:19] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:08:19,385 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:19] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:08:19,523 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:19] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:08:19,749 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:19] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:08:29,450 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:29] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:08:39,763 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:39] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:08:49,450 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:49] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:08:59,753 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:08:59] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:09:09,446 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:09] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:09:12,955 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:09:12,957 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:09:13,075 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:09:13,077 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:09:13,635 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:09:14,710 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:09:14,716 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:09:19,760 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:09:19,760 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:09:19,760 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:09:19,806 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:19] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:09:22,630 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:22] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:09:22,997 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:22] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:24,104 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:24] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:09:24,471 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:24] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:27,063 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:27] "GET /scripts?ide_webview_request_time=1759928967054 HTTP/1.1" 200 -
+2025-10-08 21:09:27,432 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:27] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:28,236 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:28] "GET / HTTP/1.1" 200 -
+2025-10-08 21:09:28,617 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:28] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:29,321 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:29] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:09:29,762 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:29] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:09:30,018 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:30] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:30,566 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:30] "GET /tasks?ide_webview_request_time=1759928970556 HTTP/1.1" 200 -
+2025-10-08 21:09:30,933 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:30] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:32,251 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:32] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:09:32,715 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:32] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:34,271 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:34] "GET /tasks/create?ide_webview_request_time=1759928974250 HTTP/1.1" 200 -
+2025-10-08 21:09:34,632 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:34] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:44,419 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:44] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:09:44,929 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:44] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:51,788 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:51] "GET /?ide_webview_request_time=1759928991749 HTTP/1.1" 200 -
+2025-10-08 21:09:52,170 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:52] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:52,890 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:52] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:09:55,616 - root - ERROR - »ñÈ¡¼¯Èº×´Ì¬Ê§°Ü: 'RedisClusterManager' object has no attribute 'get_cluster_nodes'
+2025-10-08 21:09:55,725 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:55] "[35m[1mGET /cluster?ide_webview_request_time=1759928995285 HTTP/1.1[0m" 500 -
+2025-10-08 21:09:56,011 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:56] "[36mGET /cluster?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-08 21:09:56,065 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:56] "[36mGET /cluster?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-08 21:09:56,118 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:56] "[36mGET /cluster?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-08 21:09:56,474 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:56] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:09:59,348 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:59] "GET /instances?ide_webview_request_time=1759928999305 HTTP/1.1" 200 -
+2025-10-08 21:09:59,702 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:59] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:09:59,722 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:09:59] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:01,048 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:01] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:10:01,426 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:01] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:01,861 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:01] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:10:02,216 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:02] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:10:02,248 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:02] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:03,346 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:03] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:10:03,716 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:03] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:04,112 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:04] "GET / HTTP/1.1" 200 -
+2025-10-08 21:10:04,481 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:04] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:05,189 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:05] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:10:09,520 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:09] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:10:09,779 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:09] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:10:09,883 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:09] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:11,832 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:11] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:10:12,205 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:12] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:13,274 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:13] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:10:13,666 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:13] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:10:19,370 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:19] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:10:19,757 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:10:19] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:11:08,044 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:08] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:11:08,409 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:08] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:11:10,621 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:10] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:11:10,993 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:10] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:11:12,724 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:12] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:11:13,092 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:13] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:11:54,389 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:54] "GET / HTTP/1.1" 200 -
+2025-10-08 21:11:54,761 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:54] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:11:55,463 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:55] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:11:55,827 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:55] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:11:56,083 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:56] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:11:56,177 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:56] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:11:58,308 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:58] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:11:58,678 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:11:58] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:00,660 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:00] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:12:01,029 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:01] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:01,449 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:01] "GET / HTTP/1.1" 200 -
+2025-10-08 21:12:01,897 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:01] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:02,538 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:02] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:12:03,072 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:03] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:12:03,325 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:03] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:03,738 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:03] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:12:04,115 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:04] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:06,950 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:06] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:12:07,393 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:07] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:07,817 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:07] "GET / HTTP/1.1" 200 -
+2025-10-08 21:12:08,208 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:08] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:08,884 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:08] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:12:11,003 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:11] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:12:11,223 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:11] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:12:11,358 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:11] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:13,599 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:13] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:12:14,018 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:14] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:14,280 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:14] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:12:14,403 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:14] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:14,681 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:14] "GET / HTTP/1.1" 200 -
+2025-10-08 21:12:14,901 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:14] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:12:15,753 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:15] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:12:26,017 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:12:26,028 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:12:26,212 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:12:26,238 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:12:26,627 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:12:27,669 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:12:27,675 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:12:45,054 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:12:45,056 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:12:45,057 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:12:45,070 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:12:45] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:12:51,435 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\redis_manager.py', reloading
+2025-10-08 21:12:51,436 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\redis_manager.py', reloading
+2025-10-08 21:12:51,544 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\redis_manager.py', reloading
+2025-10-08 21:12:51,545 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\redis_manager.py', reloading
+2025-10-08 21:12:52,075 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:12:53,062 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:12:53,069 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:13:15,072 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:13:15,073 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:13:15,074 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:13:15,087 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:13:15] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:14:55,957 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8088
+ * Running on http://192.168.50.193:8088
+2025-10-08 21:14:55,957 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-08 21:14:55,997 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:14:56,815 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:14:56,833 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:15:01,934 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:15:01,934 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:15:01,935 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:15:01,992 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:01] "GET /?ide_webview_request_time=1759929301670 HTTP/1.1" 200 -
+2025-10-08 21:15:02,133 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:02] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:15:03,386 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:03] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:15:05,741 - root - ERROR - »ñÈ¡¼¯Èº×´Ì¬Ê§°Ü: 'dict object' has no attribute 'load_average'
+2025-10-08 21:15:05,744 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:05] "GET /cluster?ide_webview_request_time=1759929305694 HTTP/1.1" 200 -
+2025-10-08 21:15:06,162 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:06] "[33mGET /api/cluster/metrics HTTP/1.1[0m" 404 -
+2025-10-08 21:15:06,179 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:06] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:15:09,498 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:09] "GET /scripts/upload?ide_webview_request_time=1759929309485 HTTP/1.1" 200 -
+2025-10-08 21:15:09,923 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:15:09] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:16:17,338 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:17] "GET /scripts/upload?ide_webview_request_time=1759929309485 HTTP/1.1" 200 -
+2025-10-08 21:16:17,605 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:17] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:16:18,944 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:18] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:16:19,334 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:19] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:16:29,606 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:29] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:16:29,996 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:29] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:16:31,347 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:31] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:16:31,701 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:31] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:16:31,765 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:31] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:16:41,404 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:41] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:16:51,723 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:16:51] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:17:01,411 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:17:01] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:17:11,716 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:17:11] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:17:21,413 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:17:21] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:17:27,320 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:17:27,338 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:17:27,503 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:17:27,503 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:17:28,330 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:17:29,442 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:17:29,448 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:17:31,731 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:17:31,732 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:17:31,733 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:17:31,757 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:17:31] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:17:41,410 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:17:41] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:17:51,724 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:17:51] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:18:01,402 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:18:01] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:18:11,729 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:18:11] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:18:21,410 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:18:21] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:18:26,250 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:18:26] "GET /scripts/upload?ide_webview_request_time=1759929505936 HTTP/1.1" 200 -
+2025-10-08 21:18:26,511 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:18:26] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:19:14,541 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:14] "[32mGET /scripts/upload HTTP/1.1[0m" 302 -
+2025-10-08 21:19:14,801 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:14] "GET /login HTTP/1.1" 200 -
+2025-10-08 21:19:16,616 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:16] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-08 21:19:26,271 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:26] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-08 21:19:26,547 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:26] "GET / HTTP/1.1" 200 -
+2025-10-08 21:19:28,413 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:28] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:19:32,937 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:32] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:19:34,642 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:34] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:19:39,113 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:19:39] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:21:52,911 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:21:52] "GET /scripts/upload?ide_webview_request_time=1759929712594 HTTP/1.1" 200 -
+2025-10-08 21:21:53,177 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:21:53] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:22:56,701 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:22:56] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:22:56,969 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:22:56] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:23:02,277 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_212302.py', reloading
+2025-10-08 21:23:02,278 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_212302.py', reloading
+2025-10-08 21:23:02,300 - app.script_manager - ERROR - ÉÏ´«½Å±¾Ê§°Ü: 'DatabaseManager' object has no attribute 'create_script_file'
+2025-10-08 21:23:02,301 - root - ERROR - ÉÏ´«½Å±¾Ê§°Ü: 'DatabaseManager' object has no attribute 'create_script_file'
+2025-10-08 21:23:02,302 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:23:02] "POST /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:23:02,443 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:23:03,306 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:23:03,312 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:23:08,455 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:23:08,456 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:23:08,456 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:23:08,459 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_212308.py', reloading
+2025-10-08 21:23:08,460 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_212308.py', reloading
+2025-10-08 21:23:08,463 - app.script_manager - ERROR - ÉÏ´«½Å±¾Ê§°Ü: 'DatabaseManager' object has no attribute 'create_script_file'
+2025-10-08 21:23:08,463 - root - ERROR - ÉÏ´«½Å±¾Ê§°Ü: 'DatabaseManager' object has no attribute 'create_script_file'
+2025-10-08 21:23:08,466 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:23:08] "POST /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:23:09,463 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:23:10,459 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:23:10,468 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:23:34,995 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:23:35,856 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:23:36,686 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:23:36,692 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:23:53,079 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\__init__.py', reloading
+2025-10-08 21:23:53,080 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\locust_manager.py', reloading
+2025-10-08 21:23:53,081 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\config.py', reloading
+2025-10-08 21:23:53,082 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\auth.py', reloading
+2025-10-08 21:23:54,042 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:23:54,987 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:23:54,993 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:24:33,157 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:24:33,159 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:24:33,283 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:24:33,285 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:24:33,520 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:24:34,463 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:24:34,470 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:24:54,906 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8088
+ * Running on http://192.168.50.193:8088
+2025-10-08 21:24:54,907 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-08 21:24:54,927 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:24:55,968 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:24:55,974 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:25:06,683 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:25:06,684 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:25:06,684 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:25:06,715 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:25:06] "GET /scripts/upload?ide_webview_request_time=1759929906365 HTTP/1.1" 200 -
+2025-10-08 21:25:06,949 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:25:06] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:25:12,148 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:25:12] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:25:12,428 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:25:12] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:26:27,537 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_212627.py', reloading
+2025-10-08 21:26:27,538 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_212627.py', reloading
+2025-10-08 21:26:27,603 - app.script_manager - INFO - ½Å±¾ÉÏ´«³É¹¦: trader_locust_demo.py -> trader_locust_demo_20251008_212627.py
+2025-10-08 21:26:27,604 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:26:27] "[32mPOST /scripts/upload HTTP/1.1[0m" 302 -
+2025-10-08 21:26:27,837 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: Could not build url for endpoint 'view_script' with values ['filename']. Did you forget to specify values ['script_id']?
+2025-10-08 21:26:27,839 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:26:27] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:26:27,982 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:26:28,888 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:26:28,894 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:28:57,975 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:28:57,977 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:28:58,168 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:28:58,169 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:28:58,574 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:28:59,697 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:28:59,704 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:29:06,895 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:06,920 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:07,017 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:07,018 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:07,953 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:29:08,978 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:29:08,983 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:29:16,726 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:16,727 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:16,845 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:16,846 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\script_manager.py', reloading
+2025-10-08 21:29:17,166 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:29:18,052 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:29:18,058 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:29:33,387 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:29:33,389 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:29:33,541 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:29:33,543 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app\\database.py', reloading
+2025-10-08 21:29:34,301 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:29:35,223 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:29:35,228 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:30:22,625 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8088
+ * Running on http://192.168.50.193:8088
+2025-10-08 21:30:22,626 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-08 21:30:22,641 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:30:23,485 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:30:23,493 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:30:33,278 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:30:33,280 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:30:33,280 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:30:33,399 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:30:33] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:30:33,432 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'format_bytes' is undefined
+2025-10-08 21:30:33,434 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:30:33] "GET /scripts?ide_webview_request_time=1759930233352 HTTP/1.1" 200 -
+2025-10-08 21:30:33,568 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:30:33] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:31:13,990 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213113.py', reloading
+2025-10-08 21:31:13,991 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213113.py', reloading
+2025-10-08 21:31:14,018 - app.script_manager - INFO - ½Å±¾ÉÏ´«³É¹¦: trader_locust_demo.py -> trader_locust_demo_20251008_213113.py
+2025-10-08 21:31:14,020 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:14] "[32mPOST /scripts/upload HTTP/1.1[0m" 302 -
+2025-10-08 21:31:14,268 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'format_bytes' is undefined
+2025-10-08 21:31:14,271 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:14] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:31:15,059 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:31:16,226 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:31:16,233 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:31:16,469 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:31:16,469 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:31:16,471 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:31:16,509 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:16] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:31:16,727 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:16] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:31:22,114 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213122.py', reloading
+2025-10-08 21:31:22,115 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213122.py', reloading
+2025-10-08 21:31:22,173 - app.script_manager - INFO - ½Å±¾ÉÏ´«³É¹¦: trader_locust_demo.py -> trader_locust_demo_20251008_213122.py
+2025-10-08 21:31:22,174 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:22] "[32mPOST /scripts/upload HTTP/1.1[0m" 302 -
+2025-10-08 21:31:22,417 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:31:23,346 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:31:23,352 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:31:23,398 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:31:23,399 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:31:23,400 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:31:23,452 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'format_bytes' is undefined
+2025-10-08 21:31:23,454 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:23] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:31:39,129 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:31:39,130 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:31:39,255 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:31:39,259 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:31:39,696 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:31:40,577 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:31:40,582 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:31:52,120 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:31:52,121 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:31:52,121 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:31:52,181 - root - ERROR - »ñÈ¡½Å±¾ÁÐ±íÊ§°Ü: 'format_bytes' is undefined
+2025-10-08 21:31:52,183 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:52] "GET /scripts?ide_webview_request_time=1759930312107 HTTP/1.1" 200 -
+2025-10-08 21:31:52,247 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:31:52] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:32:24,971 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:32:24] "GET /scripts?ide_webview_request_time=1759930344919 HTTP/1.1" 200 -
+2025-10-08 21:32:25,061 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:32:25] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:34:17,739 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:34:17] "GET /scripts/upload HTTP/1.1" 200 -
+2025-10-08 21:34:17,995 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:34:17] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:34:25,756 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213425.py', reloading
+2025-10-08 21:34:25,757 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213425.py', reloading
+2025-10-08 21:34:25,816 - app.script_manager - INFO - ½Å±¾ÉÏ´«³É¹¦: trader_locust_demo.py -> trader_locust_demo_20251008_213425.py
+2025-10-08 21:34:25,818 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:34:25] "[32mPOST /scripts/upload HTTP/1.1[0m" 302 -
+2025-10-08 21:34:26,148 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:34:26] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:34:26,650 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:34:27,604 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:34:27,610 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:34:32,049 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:34:32,051 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:34:32,051 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:34:32,055 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213432.py', reloading
+2025-10-08 21:34:32,056 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\scripts\\tmp\\trader_locust_demo_20251008_213432.py', reloading
+2025-10-08 21:34:32,074 - app.script_manager - INFO - ½Å±¾ÉÏ´«³É¹¦: trader_locust_demo.py -> trader_locust_demo_20251008_213432.py
+2025-10-08 21:34:32,076 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:34:32] "[32mPOST /scripts/upload HTTP/1.1[0m" 302 -
+2025-10-08 21:34:32,367 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:34:32] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:34:32,763 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:34:33,772 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:34:33,781 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:38:11,378 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:38:11,379 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:38:11,379 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:38:11,429 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:11] "GET /tasks/create?script=trader_locust_demo_20251008_213122.py HTTP/1.1" 200 -
+2025-10-08 21:38:11,519 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:11] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:38:23,065 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:23] "GET / HTTP/1.1" 200 -
+2025-10-08 21:38:23,276 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:23] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:38:24,512 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:24] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:38:26,115 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:26] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:38:26,331 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:26] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:38:31,019 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:31] "[33mGET /scripts/trader_locust_demo_20251008_212627.py/content HTTP/1.1[0m" 404 -
+2025-10-08 21:38:36,555 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:36] "GET /tasks/create?script=trader_locust_demo_20251008_213432.py HTTP/1.1" 200 -
+2025-10-08 21:38:36,804 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:36] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:38:43,100 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:38:43] "[33mGET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1[0m" 404 -
+2025-10-08 21:39:03,170 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:03] "[32mPOST /tasks/create HTTP/1.1[0m" 302 -
+2025-10-08 21:39:03,469 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:03] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:39:10,339 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:10] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:39:10,751 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:10] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:12,344 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:12] "GET / HTTP/1.1" 200 -
+2025-10-08 21:39:12,723 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:12] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:13,787 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:13] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:39:15,893 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:15] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:39:16,096 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:16] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:16,373 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:16] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:39:18,165 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:18] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:39:18,408 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:18] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:19,411 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:19] "GET / HTTP/1.1" 200 -
+2025-10-08 21:39:19,786 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:19] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:20,862 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:20] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:39:21,385 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:21] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:39:21,578 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:21] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:24,373 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:24] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:39:24,743 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:24] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:26,647 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:26] "GET /tasks/create?script=trader_locust_demo_20251008_213425.py HTTP/1.1" 200 -
+2025-10-08 21:39:27,006 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:27] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:39:30,360 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:30] "[33mGET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1[0m" 404 -
+2025-10-08 21:39:48,967 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:48] "[32mPOST /tasks/create HTTP/1.1[0m" 302 -
+2025-10-08 21:39:49,219 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:39:49] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:40:10,476 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:40:10] "[33mGET /scripts/trader_locust_demo_20251008_213425.py/content HTTP/1.1[0m" 404 -
+2025-10-08 21:40:12,103 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:40:12] "[33mGET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1[0m" 404 -
+2025-10-08 21:40:13,433 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:40:13] "[33mGET /scripts/trader_locust_demo_20251008_213122.py/content HTTP/1.1[0m" 404 -
+2025-10-08 21:40:28,697 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:40:28] "GET /tasks/create?ide_webview_request_time=1759930828685 HTTP/1.1" 200 -
+2025-10-08 21:40:28,766 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:40:28] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:41:26,426 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:26,427 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:26,600 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:26,601 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:27,121 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:41:28,134 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:41:28,140 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:41:52,054 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:52,056 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:52,214 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:52,216 - werkzeug - INFO -  * Detected change in 'F:\\Other\\Code\\dev\\locust-manager\\app.py', reloading
+2025-10-08 21:41:52,512 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-08 21:41:53,481 - werkzeug - WARNING -  * Debugger is active!
+2025-10-08 21:41:53,492 - werkzeug - INFO -  * Debugger PIN: 574-595-396
+2025-10-08 21:42:13,334 - app.database - INFO - Êý¾Ý¿âÁ¬½Ó³É¹¦
+2025-10-08 21:42:13,336 - app.redis_manager - INFO - ½Úµã node-1 ÐÄÌøÏß³ÌÒÑÆô¶¯
+2025-10-08 21:42:13,337 - root - INFO - Ó¦ÓÃ³õÊ¼»¯Íê³É
+2025-10-08 21:42:13,376 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:42:13] "GET /tasks/create?ide_webview_request_time=1759930933325 HTTP/1.1" 200 -
+2025-10-08 21:42:13,443 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:42:13] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+2025-10-08 21:42:53,988 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:42:53] "GET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1" 200 -
+2025-10-08 21:42:56,772 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:42:56] "GET /scripts/trader_locust_demo_20251008_213122.py/content HTTP/1.1" 200 -
+2025-10-08 21:43:10,612 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:43:10] "GET /scripts/trader_locust_demo_20251008_213425.py/content HTTP/1.1" 200 -
+2025-10-08 21:43:13,058 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:43:13] "[32mPOST /tasks/create HTTP/1.1[0m" 302 -
+2025-10-08 21:43:13,390 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:43:13] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:46:49,062 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:46:49] "GET /tasks/create?script=trader_locust_demo_20251008_213425.py HTTP/1.1" 200 -
+2025-10-08 21:46:49,298 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:46:49] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-08 21:46:55,691 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:46:55] "GET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1" 200 -
+2025-10-08 21:47:18,161 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:18] "[32mPOST /tasks/create HTTP/1.1[0m" 302 -
+2025-10-08 21:47:18,442 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:18] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:47:34,616 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:34] "[32mPOST /tasks/create HTTP/1.1[0m" 302 -
+2025-10-08 21:47:34,943 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:34] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:47:38,432 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:38] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:47:39,113 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:39] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:47:40,906 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:40] "GET /tasks/create HTTP/1.1" 200 -
+2025-10-08 21:47:44,778 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:44] "GET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1" 200 -
+2025-10-08 21:47:45,803 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:45] "GET / HTTP/1.1" 200 -
+2025-10-08 21:47:47,223 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:47] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:47:48,799 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:48] "GET / HTTP/1.1" 200 -
+2025-10-08 21:47:50,214 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:50] "GET /api/stats HTTP/1.1" 200 -
+2025-10-08 21:47:50,684 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:50] "GET /tasks HTTP/1.1" 200 -
+2025-10-08 21:47:52,258 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:52] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:47:53,120 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:53] "GET /instances HTTP/1.1" 200 -
+2025-10-08 21:47:53,512 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:53] "[33mGET /api/instances/stats HTTP/1.1[0m" 404 -
+2025-10-08 21:47:54,128 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:47:54] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:48:00,776 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:00] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:48:08,654 - root - ERROR - ²é¿´½Å±¾Ê§°Ü: view_script.html
+2025-10-08 21:48:08,656 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:08] "[32mGET /scripts/1/view HTTP/1.1[0m" 302 -
+2025-10-08 21:48:08,996 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:08] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:48:16,583 - root - ERROR - ²é¿´½Å±¾Ê§°Ü: view_script.html
+2025-10-08 21:48:16,584 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:16] "[32mGET /scripts/2/view HTTP/1.1[0m" 302 -
+2025-10-08 21:48:16,924 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:16] "GET /scripts HTTP/1.1" 200 -
+2025-10-08 21:48:20,413 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:20] "GET /tasks/create?script=trader_locust_demo_20251008_213425.py HTTP/1.1" 200 -
+2025-10-08 21:48:23,786 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:23] "GET /scripts/trader_locust_demo_20251008_213432.py/content HTTP/1.1" 200 -
+2025-10-08 21:48:29,305 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:29] "[33mGET /scripts/trader_locust_demo_20251008_213432.py HTTP/1.1[0m" 404 -
+2025-10-08 21:48:31,969 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:31] "GET / HTTP/1.1" 200 -
+2025-10-08 21:48:33,103 - werkzeug - INFO - 127.0.0.1 - - [08/Oct/2025 21:48:33] "GET /api/stats HTTP/1.1" 200 -

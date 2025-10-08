@@ -1,0 +1,10 @@
+build_image: 116981788283.dkr.ecr.ap-east-1.amazonaws.com/devops/compile/golang/ci-golang:1.23
+
+builds:
+  - cmds: |-
+      tar -czf main.tar.gz *
+    runtime_image_src_artifacts: main.tar.gz
+    runtime_image_dest: /app/
+    runtime_image_env: test
+    service_name: chief-stresstest-locust
+
