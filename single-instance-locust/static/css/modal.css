@@ -1,0 +1,390 @@
+/* ========== 模态框通用样式 ========== */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 90%;
+    max-height: 90%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #e1e5e9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+.modal-header h3 { margin: 0; color: #495057; }
+
+.close {
+    font-size: 24px; font-weight: bold; color: #aaa;
+    cursor: pointer; line-height: 1;
+}
+.close:hover { color: #000; }
+
+.modal-body {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e1e5e9;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background-color: #f8f9fa;
+}
+
+/* ========== 脚本预览 ========== */
+.script-info {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.script-content-container {
+    border: 1px solid #e1e5e9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.script-content {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.script-textarea {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 350px;
+    padding: 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    color: #2d3748;
+    width: 100%;
+    box-sizing: border-box;
+}
+.script-textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1), 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== 账户管理弹框 ========== */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+.modal-overlay.show { display: flex; }
+
+.account-modal {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1000px;
+    height: 80%;
+    max-height: 700px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-sidebar {
+    width: 250px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-sidebar .modal-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    background: transparent;
+}
+.modal-sidebar .modal-header h2 { font-size: 1.5em; margin-bottom: 5px; }
+.modal-sidebar .modal-header p { font-size: 0.9em; opacity: 0.8; }
+
+.modal-tabs { flex: 1; }
+
+.tab-item {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.tab-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-left-color: rgba(255, 255, 255, 0.5);
+}
+.tab-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-left-color: white;
+}
+.tab-item i { margin-right: 10px; width: 16px; }
+
+.account-modal > .modal-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ========== 账户表格 ========== */
+#accountsTableContainer {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.accounts-table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.accounts-table th,
+.accounts-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e1e5e9;
+    white-space: nowrap;
+}
+.accounts-table th { background: #f8f9fa; font-weight: 600; color: #333; }
+.accounts-table tr:hover { background: #f5f5f5; }
+
+.account-actions { display: flex; gap: 5px; }
+
+.btn-icon {
+    padding: 5px 8px; border: none; border-radius: 4px;
+    cursor: pointer; font-size: 12px; transition: all 0.2s ease;
+}
+.btn-edit { background: #17a2b8; color: white; }
+.btn-edit:hover { background: #138496; }
+.btn-delete { background: #dc3545; color: white; }
+.btn-delete:hover { background: #c82333; }
+
+.account-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.form-grid .form-group { margin-bottom: 0; }
+
+.account-modal .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: white;
+    border-top: 1px solid #e1e5e9;
+}
+
+.btn-close {
+    background: #6c757d; color: white; border: none;
+    padding: 10px 20px; border-radius: 5px; cursor: pointer;
+    transition: background 0.3s ease;
+}
+.btn-close:hover { background: #5a6268; }
+
+.btn-save {
+    background: #28a745; color: white; border: none;
+    padding: 10px 20px; border-radius: 5px; cursor: pointer;
+    transition: background 0.3s ease;
+}
+.btn-save:hover { background: #218838; }
+
+.btn-add {
+    background: #007bff; color: white; border: none;
+    padding: 8px 16px; border-radius: 5px; cursor: pointer;
+    margin-bottom: 20px; transition: background 0.3s ease;
+}
+.btn-add:hover { background: #0056b3; }
+
+.btn-export {
+    background: #ffc107; color: #212529; border: none;
+    padding: 8px 16px; border-radius: 5px; cursor: pointer;
+    margin-bottom: 20px; margin-left: 10px; transition: background 0.3s ease;
+}
+.btn-export:hover { background: #e0a800; }
+
+.account-type-badge {
+    padding: 3px 8px; border-radius: 12px;
+    font-size: 0.8em; font-weight: bold;
+}
+.badge-admin { background: #dc3545; color: white; }
+.badge-user { background: #28a745; color: white; }
+.badge-test { background: #ffc107; color: #212529; }
+.badge-demo { background: #6c757d; color: white; }
+
+.empty-state {
+    text-align: center; padding: 40px; color: #6c757d;
+}
+.empty-state i { font-size: 3em; margin-bottom: 20px; opacity: 0.5; }
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+    .account-modal {
+        width: 95%; height: 90%;
+        flex-direction: column;
+    }
+    .modal-sidebar {
+        width: 100%; height: auto;
+        flex-direction: row; overflow-x: auto;
+    }
+    .modal-tabs { display: flex; flex: 1; }
+    .tab-item {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    .tab-item.active { border-left: none; border-bottom-color: white; }
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ========== cURL 转脚本弹框 ========== */
+.curl-input {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 180px;
+    padding: 14px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+.curl-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+.curl-input::placeholder {
+    color: #6a6a6a;
+}
+
+.curl-preview {
+    background-color: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 15px;
+    max-height: 350px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.parse-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    align-items: center;
+}
+
+.parse-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #e9ecef;
+    color: #495057;
+}
+.method-get { background: #d4edda; color: #155724; }
+.method-post { background: #cce5ff; color: #004085; }
+.method-put { background: #fff3cd; color: #856404; }
+.method-delete { background: #f8d7da; color: #721c24; }
+.method-patch { background: #e2d5f1; color: #4a235a; }
+.body-tag { background: #ffeeba; color: #856404; }
+
+.curl-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.curl-filename-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.curl-filename-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
