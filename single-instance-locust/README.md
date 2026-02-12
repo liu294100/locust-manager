@@ -36,7 +36,7 @@
 
 1. **克隆项目**
 ```bash
-git clone https://dev.stx365.com/chief/chief-stresstest-locust.git
+git clone https://xxx.com/chief/chief-stresstest-locust.git
 cd chief-stresstest-locust
 ```
 
@@ -215,7 +215,7 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
 
 2. **设置目标主机**
    ```
-   开发环境: https://api.dev.stx365.com
+   开发环境: https://api.xxx.com
    测试环境: https://api.test.stx365.com
    生产环境: https://api.prod.stx365.com
    ```
@@ -497,7 +497,7 @@ def low_frequency_task(self):
 #### 基础安装
 ```bash
 # 克隆项目
-git clone https://dev.stx365.com/chief/chief-stresstest-locust.git
+git clone https://xxx.com/chief/chief-stresstest-locust.git
 cd chief-stresstest-locust
 
 # 创建虚拟环境（推荐）
@@ -518,7 +518,7 @@ python app.py
 #### 开发环境配置
 ```bash
 # 设置环境变量
-export TARGET_HOST=https://api.dev.stx365.com
+export TARGET_HOST=https://api.xxx.com
 export LOCUST_FILE=Trader/trader_locust.py
 export WEB_PORT=8088
 
@@ -539,7 +539,7 @@ docker run --rm -p 8088:8088 chief-stresstest-locust:latest
 # 运行容器（带环境变量）
 docker run --rm \
   -p 8088:8088 \
-  -e TARGET_HOST=https://api.dev.stx365.com \
+  -e TARGET_HOST=https://api.xxx.com \
   -e LOCUST_FILE=Trader/trader_locust.py \
   chief-stresstest-locust:latest
 ```
@@ -591,7 +591,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - TARGET_HOST=https://api.dev.stx365.com
+      - TARGET_HOST=https://api.xxx.com
       - LOCUST_FILE=Trader/trader_locust.py
       - WEB_PORT=8088
     volumes:
@@ -616,7 +616,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - TARGET_HOST=https://api.dev.stx365.com
+      - TARGET_HOST=https://api.xxx.com
       - LOCUST_FILE=Trader/trader_locust.py
       - LOG_LEVEL=DEBUG
     volumes:
@@ -904,7 +904,7 @@ wrk -t12 -c400 -d30s http://localhost:8088/
 
 | 变量名 | 说明 | 默认值 | 示例 |
 |--------|------|--------|------|
-| `TARGET_HOST` | 目标测试主机 | 无 | `https://api.dev.stx365.com` |
+| `TARGET_HOST` | 目标测试主机 | 无 | `https://api.xxx.com` |
 | `LOCUST_FILE` | 默认脚本文件 | `trader_locust_demo.py` | `Trader/trader_locust.py` |
 | `WEB_PORT` | Web UI 端口 | `8088` | `8089` |
 | `LOCUST_PORT` | Locust 服务端口 | `8089` | `8090` |
@@ -1375,7 +1375,7 @@ Content-Type: application/json
 
 {
     "script": "trader_locust.py",
-    "host": "https://api.dev.stx365.com",
+    "host": "https://api.xxx.com",
     "users": 10,
     "spawn_rate": 2
 }
