@@ -5,9 +5,9 @@ services:
       context: .
       args:
         - PIP_INDEX_URL=${PIP_INDEX_URL}
-    image: chief-stresstest-locust:latest
+    image: stresstest-locust:latest
     environment:
-      - LOCUST_FILE=${LOCUST_FILE:-Trader/trader_locust.py}
+      - LOCUST_FILE=${LOCUST_FILE:-tmp/demo.py}
       - TARGET_HOST=${TARGET_HOST}
     ports:
       - "8088:8088"  # Flask management UI
