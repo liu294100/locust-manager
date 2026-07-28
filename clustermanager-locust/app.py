@@ -192,12 +192,13 @@ def init_application():
     # 初始化集群
     cluster_ok = init_cluster()
     
+    web_port = os.environ.get('WEB_PORT', '9088')
     print("\n🌐 Web服务启动信息:")
-    print("   管理界面: http://localhost:8088")
-    print("   健康检查: http://localhost:8088/ok")
+    print(f"   管理界面: http://localhost:{web_port}")
+    print(f"   健康检查: http://localhost:{web_port}/ok")
     if cluster_ok:
-        print("   集群状态: http://localhost:8088/api/cluster/status")
-        print("   节点列表: http://localhost:8088/api/cluster/nodes")
+        print(f"   集群状态: http://localhost:{web_port}/api/cluster/status")
+        print(f"   节点列表: http://localhost:{web_port}/api/cluster/nodes")
     print("\n" + "=" * 50)
 
     return True
@@ -219,7 +220,7 @@ if __name__ == '__main__':
 
         app.run(
             host='0.0.0.0',
-            port=8088,
+            port=int(os.environ.get('WEB_PORT', '9088')),
             debug=False,
             threaded=True,
             processes=1,
