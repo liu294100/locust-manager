@@ -1,740 +1,488 @@
 /**
- * 集群管理页面JavaScript
- * 处理集群状态监控、节点管理、性能图表等功能
+ * 集群管理 JavaScript
  */
 
-class ClusterManager {
-    constructor() {
-        this.nodes = [];
-        this.clusterStats = {};
-        this.refreshInterval = null;
-        this.charts = {};
-        this.init();
-    }
+// 集群状态
+let clusterEnabled = false;
+let clusterNodes = [];
+let clusterInstances = [];
 
-    /**
-     * 初始化集群管理器
-     */
-    init() {
-        this.bindEvents();
-        this.initCharts();
-        this.loadClusterData();
-        this.startAutoRefresh();
-    }
-
-    /**
-     * 绑定事件
-     */
-    bindEvents() {
-        // 刷新按钮
-        const refreshBtn = document.getElementById('refresh-btn');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', () => {
-                this.loadClusterData();
-            });
-        }
-
-        // 清理集群按钮
-        const cleanupBtn = document.getElementById('cleanup-btn');
-        if (cleanupBtn) {
-            cleanupBtn.addEventListener('click', () => {
-                this.cleanupCluster();
-            });
-        }
-
-        // 自动刷新切换
-        const autoRefreshToggle = document.getElementById('auto-refresh-toggle');
-        if (autoRefreshToggle) {
-            autoRefreshToggle.addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    this.startAutoRefresh();
-                } else {
-                    this.stopAutoRefresh();
-                }
-            });
-        }
-
-        // 图表时间范围选择
-        const timeRangeSelect = document.getElementById('time-range-select');
-        if (timeRangeSelect) {
-            timeRangeSelect.addEventListener('change', (e) => {
-                this.updateChartsTimeRange(e.target.value);
-            });
-        }
-    }
-
-    /**
-     * 初始化图表
-     */
-    initCharts() {
-        // 任务分布饼图
-        const taskDistCtx = document.getElementById('taskDistributionChart');
-        if (taskDistCtx) {
-            this.charts.taskDistribution = new Chart(taskDistCtx, {
-                type: 'pie',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        data: [],
-                        backgroundColor: [
-                            '#007bff', '#28a745', '#ffc107', '#dc3545',
-                            '#6f42c1', '#fd7e14', '#20c997', '#6c757d'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.parsed || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // CPU使用率趋势图
-        const cpuTrendCtx = document.getElementById('cpuTrendChart');
-        if (cpuTrendCtx) {
-            this.charts.cpuTrend = new Chart(cpuTrendCtx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: '平均CPU使用率',
-                        data: [],
-                        borderColor: '#007bff',
-                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        },
-                        x: {
-                            type: 'time',
-                            time: {
-                                displayFormats: {
-                                    minute: 'HH:mm',
-                                    hour: 'HH:mm'
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `CPU: ${context.parsed.y.toFixed(1)}%`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // 内存使用率趋势图
-        const memoryTrendCtx = document.getElementById('memoryTrendChart');
-        if (memoryTrendCtx) {
-            this.charts.memoryTrend = new Chart(memoryTrendCtx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: '平均内存使用率',
-                        data: [],
-                        borderColor: '#28a745',
-                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        },
-                        x: {
-                            type: 'time',
-                            time: {
-                                displayFormats: {
-                                    minute: 'HH:mm',
-                                    hour: 'HH:mm'
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `内存: ${context.parsed.y.toFixed(1)}%`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    /**
-     * 加载集群数据
-     */
-    async loadClusterData() {
-        try {
-            Loading.show('加载集群数据...');
-            
-            const response = await API.get('/api/cluster/status');
-            
-            if (response.success) {
-                this.clusterStats = response.data.statistics || {};
-                this.nodes = response.data.nodes || [];
-                
-                this.updateClusterOverview();
-                this.renderNodes();
-                this.updateCharts(response.data.metrics);
-            } else {
-                Notification.error('加载集群数据失败: ' + response.message);
-            }
-        } catch (error) {
-            console.error('加载集群数据失败:', error);
-            Notification.error('加载集群数据失败: ' + error.message);
-        } finally {
-            Loading.hide();
-        }
-    }
-
-    /**
-     * 更新集群概览
-     */
-    updateClusterOverview() {
-        const elements = {
-            'total-nodes': this.clusterStats.total_nodes || 0,
-            'active-nodes': this.clusterStats.active_nodes || 0,
-            'total-instances': this.clusterStats.total_instances || 0,
-            'running-instances': this.clusterStats.running_instances || 0,
-            'avg-cpu': (this.clusterStats.avg_cpu || 0).toFixed(1),
-            'avg-memory': (this.clusterStats.avg_memory || 0).toFixed(1),
-            'avg-load': (this.clusterStats.avg_load || 0).toFixed(2)
-        };
-
-        Object.entries(elements).forEach(([id, value]) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.textContent = value;
-            }
-        });
-
-        // 更新健康状态
-        const healthStatus = document.getElementById('cluster-health');
-        if (healthStatus) {
-            const healthPercentage = this.clusterStats.total_nodes > 0 
-                ? (this.clusterStats.active_nodes / this.clusterStats.total_nodes) * 100 
-                : 0;
-            
-            let healthClass = 'success';
-            let healthText = '健康';
-            
-            if (healthPercentage < 50) {
-                healthClass = 'danger';
-                healthText = '严重';
-            } else if (healthPercentage < 80) {
-                healthClass = 'warning';
-                healthText = '警告';
-            }
-            
-            healthStatus.className = `badge bg-${healthClass}`;
-            healthStatus.textContent = healthText;
-        }
-    }
-
-    /**
-     * 渲染节点列表
-     */
-    renderNodes() {
-        const container = document.getElementById('nodes-container');
-        if (!container) return;
-
-        if (this.nodes.length === 0) {
-            container.innerHTML = `
-                <div class="text-center py-5">
-                    <i class="fas fa-server fa-3x text-muted mb-3"></i>
-                    <h5 class="text-muted">没有找到节点</h5>
-                    <p class="text-muted">集群中暂无可用节点</p>
-                </div>
-            `;
-            return;
-        }
-
-        const html = this.nodes.map(node => this.renderNodeCard(node)).join('');
-        container.innerHTML = html;
-
-        // 绑定节点操作事件
-        this.bindNodeEvents();
-    }
-
-    /**
-     * 渲染单个节点卡片
-     */
-    renderNodeCard(node) {
-        const statusBadge = this.getNodeStatusBadge(node.status);
-        const lastHeartbeat = node.last_heartbeat 
-            ? Utils.formatDateTime(new Date(node.last_heartbeat))
-            : '从未';
+/**
+ * 初始化集群功能
+ */
+async function initCluster() {
+    try {
+        const response = await fetch('/api/cluster/status');
+        const data = await response.json();
         
-        return `
-            <div class="col-md-6 col-lg-4 mb-3">
-                <div class="card node-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="fw-bold">${node.hostname || node.ip}</div>
-                        ${statusBadge}
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-2 mb-3">
-                            <div class="col-6">
-                                <small class="text-muted">IP地址</small>
-                                <div class="fw-bold small">${node.ip}</div>
-                            </div>
-                            <div class="col-6">
-                                <small class="text-muted">实例数</small>
-                                <div class="fw-bold small">${node.instance_count || 0}</div>
-                            </div>
-                            <div class="col-12">
-                                <small class="text-muted">最后心跳</small>
-                                <div class="fw-bold small">${lastHeartbeat}</div>
-                            </div>
-                        </div>
-                        
-                        ${this.renderNodeResourceUsage(node)}
-                        
-                        <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-sm btn-outline-primary view-node-details-btn" 
-                                    data-node-id="${node.node_id}"
-                                    title="查看详情">
-                                <i class="fas fa-info-circle"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-warning ping-node-btn" 
-                                    data-node-id="${node.node_id}"
-                                    title="Ping节点">
-                                <i class="fas fa-satellite-dish"></i>
-                            </button>
-                            ${node.status === 'offline' ? `
-                                <button class="btn btn-sm btn-outline-danger remove-node-btn" 
-                                        data-node-id="${node.node_id}"
-                                        title="移除节点">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    /**
-     * 获取节点状态徽章
-     */
-    getNodeStatusBadge(status) {
-        const badges = {
-            'online': '<span class="badge bg-success">在线</span>',
-            'offline': '<span class="badge bg-danger">离线</span>',
-            'warning': '<span class="badge bg-warning">警告</span>',
-            'unknown': '<span class="badge bg-secondary">未知</span>'
-        };
-        return badges[status] || badges['unknown'];
-    }
-
-    /**
-     * 渲染节点资源使用情况
-     */
-    renderNodeResourceUsage(node) {
-        if (!node.cpu_usage && !node.memory_usage && !node.load_average) {
-            return '<div class="text-muted small">资源使用情况不可用</div>';
-        }
-
-        const cpuUsage = parseFloat(node.cpu_usage) || 0;
-        const memoryUsage = parseFloat(node.memory_usage) || 0;
-        const loadAverage = parseFloat(node.load_average) || 0;
-
-        return `
-            <div class="resource-usage">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <small class="text-muted">CPU</small>
-                    <small class="fw-bold">${cpuUsage.toFixed(1)}%</small>
-                </div>
-                <div class="progress mb-2" style="height: 4px;">
-                    <div class="progress-bar ${cpuUsage > 80 ? 'bg-danger' : cpuUsage > 60 ? 'bg-warning' : 'bg-success'}" 
-                         style="width: ${cpuUsage}%"></div>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <small class="text-muted">内存</small>
-                    <small class="fw-bold">${memoryUsage.toFixed(1)}%</small>
-                </div>
-                <div class="progress mb-2" style="height: 4px;">
-                    <div class="progress-bar ${memoryUsage > 80 ? 'bg-danger' : memoryUsage > 60 ? 'bg-warning' : 'bg-success'}" 
-                         style="width: ${memoryUsage}%"></div>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <small class="text-muted">负载</small>
-                    <small class="fw-bold">${loadAverage.toFixed(2)}</small>
-                </div>
-                <div class="progress" style="height: 4px;">
-                    <div class="progress-bar ${loadAverage > 2 ? 'bg-danger' : loadAverage > 1 ? 'bg-warning' : 'bg-success'}" 
-                         style="width: ${Math.min(loadAverage * 50, 100)}%"></div>
-                </div>
-            </div>
-        `;
-    }
-
-    /**
-     * 绑定节点操作事件
-     */
-    bindNodeEvents() {
-        // 查看节点详情
-        document.querySelectorAll('.view-node-details-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const nodeId = e.target.closest('[data-node-id]').dataset.nodeId;
-                this.viewNodeDetails(nodeId);
-            });
-        });
-
-        // Ping节点
-        document.querySelectorAll('.ping-node-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const nodeId = e.target.closest('[data-node-id]').dataset.nodeId;
-                this.pingNode(nodeId);
-            });
-        });
-
-        // 移除节点
-        document.querySelectorAll('.remove-node-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const nodeId = e.target.closest('[data-node-id]').dataset.nodeId;
-                this.removeNode(nodeId);
-            });
-        });
-    }
-
-    /**
-     * 更新图表
-     */
-    updateCharts(metrics) {
-        if (!metrics) return;
-
-        // 更新任务分布图
-        if (this.charts.taskDistribution && metrics.task_distribution) {
-            const taskData = metrics.task_distribution;
-            this.charts.taskDistribution.data.labels = Object.keys(taskData);
-            this.charts.taskDistribution.data.datasets[0].data = Object.values(taskData);
-            this.charts.taskDistribution.update();
-        }
-
-        // 更新CPU趋势图
-        if (this.charts.cpuTrend && metrics.cpu_trend) {
-            const cpuData = metrics.cpu_trend;
-            this.charts.cpuTrend.data.labels = cpuData.map(item => new Date(item.timestamp));
-            this.charts.cpuTrend.data.datasets[0].data = cpuData.map(item => item.value);
-            this.charts.cpuTrend.update();
-        }
-
-        // 更新内存趋势图
-        if (this.charts.memoryTrend && metrics.memory_trend) {
-            const memoryData = metrics.memory_trend;
-            this.charts.memoryTrend.data.labels = memoryData.map(item => new Date(item.timestamp));
-            this.charts.memoryTrend.data.datasets[0].data = memoryData.map(item => item.value);
-            this.charts.memoryTrend.update();
-        }
-    }
-
-    /**
-     * 更新图表时间范围
-     */
-    async updateChartsTimeRange(timeRange) {
-        try {
-            const response = await API.get(`/api/cluster/metrics?time_range=${timeRange}`);
-            
-            if (response.success) {
-                this.updateCharts(response.data);
-            }
-        } catch (error) {
-            console.error('更新图表数据失败:', error);
-        }
-    }
-
-    /**
-     * 查看节点详情
-     */
-    async viewNodeDetails(nodeId) {
-        try {
-            const node = this.nodes.find(n => n.node_id === nodeId);
-            if (!node) return;
-
-            // 获取详细信息
-            const response = await API.get(`/api/cluster/nodes/${nodeId}`);
-            
-            if (response.success) {
-                this.showNodeDetailsModal(response.data);
-            } else {
-                Notification.error('获取节点详情失败: ' + response.message);
-            }
-        } catch (error) {
-            console.error('获取节点详情失败:', error);
-            Notification.error('获取节点详情失败: ' + error.message);
-        }
-    }
-
-    /**
-     * 显示节点详情模态框
-     */
-    showNodeDetailsModal(nodeData) {
-        const modalHtml = `
-            <div class="modal fade" id="nodeDetailsModal" tabindex="-1">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">节点详情 - ${nodeData.hostname || nodeData.ip}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6>基本信息</h6>
-                                    <table class="table table-sm">
-                                        <tr><td>主机名</td><td>${nodeData.hostname || '-'}</td></tr>
-                                        <tr><td>IP地址</td><td>${nodeData.ip}</td></tr>
-                                        <tr><td>状态</td><td>${this.getNodeStatusBadge(nodeData.status)}</td></tr>
-                                        <tr><td>实例数</td><td>${nodeData.instance_count || 0}</td></tr>
-                                        <tr><td>最后心跳</td><td>${nodeData.last_heartbeat ? Utils.formatDateTime(new Date(nodeData.last_heartbeat)) : '从未'}</td></tr>
-                                    </table>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>系统信息</h6>
-                                    <table class="table table-sm">
-                                        <tr><td>操作系统</td><td>${nodeData.os_info || '-'}</td></tr>
-                                        <tr><td>CPU核心数</td><td>${nodeData.cpu_cores || '-'}</td></tr>
-                                        <tr><td>总内存</td><td>${nodeData.total_memory ? Utils.formatBytes(nodeData.total_memory) : '-'}</td></tr>
-                                        <tr><td>Python版本</td><td>${nodeData.python_version || '-'}</td></tr>
-                                        <tr><td>Locust版本</td><td>${nodeData.locust_version || '-'}</td></tr>
-                                    </table>
-                                </div>
-                            </div>
-                            
-                            ${nodeData.instances && nodeData.instances.length > 0 ? `
-                                <h6 class="mt-3">运行中的实例</h6>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>实例ID</th>
-                                                <th>任务名称</th>
-                                                <th>端口</th>
-                                                <th>状态</th>
-                                                <th>开始时间</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${nodeData.instances.map(instance => `
-                                                <tr>
-                                                    <td>${instance.instance_id}</td>
-                                                    <td>${instance.task_name}</td>
-                                                    <td>${instance.port}</td>
-                                                    <td>${Utils.getStatusBadge(instance.status)}</td>
-                                                    <td>${instance.start_time ? Utils.formatDateTime(new Date(instance.start_time)) : '-'}</td>
-                                                </tr>
-                                            `).join('')}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            ` : ''}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        // 移除已存在的模态框
-        const existingModal = document.getElementById('nodeDetailsModal');
-        if (existingModal) {
-            existingModal.remove();
-        }
-
-        // 添加新模态框
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        clusterEnabled = data.cluster_enabled;
         
-        // 显示模态框
-        const modal = new bootstrap.Modal(document.getElementById('nodeDetailsModal'));
-        modal.show();
-    }
-
-    /**
-     * Ping节点
-     */
-    async pingNode(nodeId) {
-        try {
-            Loading.show('正在Ping节点...');
-            
-            const response = await API.post(`/api/cluster/nodes/${nodeId}/ping`);
-            
-            if (response.success) {
-                Notification.success(`节点响应时间: ${response.data.response_time}ms`);
-            } else {
-                Notification.error('Ping节点失败: ' + response.message);
-            }
-        } catch (error) {
-            console.error('Ping节点失败:', error);
-            Notification.error('Ping节点失败: ' + error.message);
-        } finally {
-            Loading.hide();
+        if (clusterEnabled) {
+            console.log('集群模式已启用');
+            showClusterUI();
+            await refreshClusterStatus();
+        } else {
+            console.log('集群模式未启用');
+            hideClusterUI();
         }
-    }
-
-    /**
-     * 移除节点
-     */
-    async removeNode(nodeId) {
-        const confirmed = await ConfirmDialog.show(
-            '确认移除节点',
-            '确定要从集群中移除这个节点吗？此操作不可撤销。',
-            'danger'
-        );
-
-        if (!confirmed) return;
-
-        try {
-            Loading.show('正在移除节点...');
-            
-            const response = await API.delete(`/api/cluster/nodes/${nodeId}`);
-            
-            if (response.success) {
-                Notification.success('节点已移除');
-                this.loadClusterData();
-            } else {
-                Notification.error('移除节点失败: ' + response.message);
-            }
-        } catch (error) {
-            console.error('移除节点失败:', error);
-            Notification.error('移除节点失败: ' + error.message);
-        } finally {
-            Loading.hide();
-        }
-    }
-
-    /**
-     * 清理集群
-     */
-    async cleanupCluster() {
-        const confirmed = await ConfirmDialog.show(
-            '确认清理集群',
-            '这将移除所有离线节点和无效实例。确定要继续吗？',
-            'warning'
-        );
-
-        if (!confirmed) return;
-
-        try {
-            Loading.show('正在清理集群...');
-            
-            const response = await API.post('/api/cluster/cleanup');
-            
-            if (response.success) {
-                Notification.success('集群清理完成');
-                this.loadClusterData();
-            } else {
-                Notification.error('集群清理失败: ' + response.message);
-            }
-        } catch (error) {
-            console.error('集群清理失败:', error);
-            Notification.error('集群清理失败: ' + error.message);
-        } finally {
-            Loading.hide();
-        }
-    }
-
-    /**
-     * 开始自动刷新
-     */
-    startAutoRefresh() {
-        this.stopAutoRefresh();
-        this.refreshInterval = setInterval(() => {
-            this.loadClusterData();
-        }, 10000); // 10秒刷新一次
-    }
-
-    /**
-     * 停止自动刷新
-     */
-    stopAutoRefresh() {
-        if (this.refreshInterval) {
-            clearInterval(this.refreshInterval);
-            this.refreshInterval = null;
-        }
-    }
-
-    /**
-     * 销毁集群管理器
-     */
-    destroy() {
-        this.stopAutoRefresh();
-        
-        // 销毁图表
-        Object.values(this.charts).forEach(chart => {
-            if (chart && typeof chart.destroy === 'function') {
-                chart.destroy();
-            }
-        });
+    } catch (error) {
+        console.error('初始化集群失败:', error);
+        clusterEnabled = false;
+        hideClusterUI();
     }
 }
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 检查是否在集群管理页面
-    if (document.body.dataset.page === 'cluster') {
-        window.clusterManager = new ClusterManager();
+/**
+ * 显示集群 UI
+ */
+function showClusterUI() {
+    const clusterSection = document.getElementById('cluster-section');
+    if (clusterSection) {
+        clusterSection.style.display = 'block';
     }
-});
+    
+    // 添加集群模式切换按钮
+    const modeToggle = document.getElementById('cluster-mode-toggle');
+    if (modeToggle) {
+        modeToggle.style.display = 'inline-block';
+    }
+}
 
-// 页面卸载时清理
-window.addEventListener('beforeunload', function() {
-    if (window.clusterManager) {
-        window.clusterManager.destroy();
+/**
+ * 隐藏集群 UI
+ */
+function hideClusterUI() {
+    const clusterSection = document.getElementById('cluster-section');
+    if (clusterSection) {
+        clusterSection.style.display = 'none';
     }
+}
+
+/**
+ * 刷新集群状态
+ */
+async function refreshClusterStatus() {
+    if (!clusterEnabled) return;
+    
+    try {
+        // 获取集群状态
+        const statusResp = await fetch('/api/cluster/status');
+        const statusData = await statusResp.json();
+        
+        if (statusData.success) {
+            updateClusterStats(statusData.stats);
+            updateCurrentNode(statusData.current_node);
+        }
+        
+        // 获取节点列表
+        const nodesResp = await fetch('/api/cluster/nodes');
+        const nodesData = await nodesResp.json();
+        
+        if (nodesData.success) {
+            clusterNodes = nodesData.nodes;
+            updateNodesTable(clusterNodes);
+        }
+        
+        // 获取集群实例
+        const instancesResp = await fetch('/api/cluster/instances');
+        const instancesData = await instancesResp.json();
+        
+        if (instancesData.success) {
+            clusterInstances = instancesData.instances;
+            updateClusterInstancesTable(clusterInstances);
+        }
+        
+    } catch (error) {
+        console.error('刷新集群状态失败:', error);
+    }
+}
+
+/**
+ * 更新集群统计信息
+ */
+function updateClusterStats(stats) {
+    const statsContainer = document.getElementById('cluster-stats');
+    if (!statsContainer) return;
+    
+    statsContainer.innerHTML = `
+        <div class="stat-item">
+            <span class="stat-label">在线节点</span>
+            <span class="stat-value">${stats.online_nodes} / ${stats.total_nodes}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">总容量</span>
+            <span class="stat-value">${stats.total_capacity}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">运行中实例</span>
+            <span class="stat-value">${stats.running_instances}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">集群实例</span>
+            <span class="stat-value">${stats.cluster_instances}</span>
+        </div>
+    `;
+}
+
+/**
+ * 更新当前节点信息
+ */
+function updateCurrentNode(node) {
+    const nodeInfo = document.getElementById('current-node-info');
+    if (!nodeInfo || !node) return;
+    
+    const leaderBadge = node.is_leader 
+        ? '<span class="badge badge-warning">👑 Leader</span>' 
+        : '';
+    
+    nodeInfo.innerHTML = `
+        <strong>当前节点:</strong> ${node.node_id}
+        <span class="node-role ${node.role}">${node.role}</span>
+        <span class="node-status ${node.status}">${node.status}</span>
+        ${leaderBadge}
+    `;
+}
+
+/**
+ * 更新节点列表表格
+ */
+function updateNodesTable(nodes) {
+    const tbody = document.getElementById('cluster-nodes-tbody');
+    if (!tbody) return;
+    
+    if (nodes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">暂无节点</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = nodes.map(node => `
+        <tr class="${node.status === 'online' ? '' : 'offline'}">
+            <td>
+                ${node.node_id}
+                ${node.is_leader ? '<span class="badge badge-warning">👑</span>' : ''}
+            </td>
+            <td>${node.ip_address}:${node.port}</td>
+            <td><span class="badge badge-${getRoleBadge(node.role)}">${node.role}</span></td>
+            <td><span class="status-dot ${node.status}"></span>${node.status}</td>
+            <td>${node.running_instances} / ${node.capacity}</td>
+            <td>${node.cpu_cores} 核 / ${Math.round(node.memory_mb / 1024)} GB</td>
+            <td>${formatTime(node.last_heartbeat)}</td>
+            <td>
+                ${node.is_leader ? '' : '<button class="btn btn-sm btn-outline" onclick="forceReelection()" title="强制重新选举">🔄</button>'}
+            </td>
+        </tr>
+    `).join('');
+}
+
+/**
+ * 更新集群实例表格 - 树形展示主从关系
+ */
+function updateClusterInstancesTable(instances) {
+    const tbody = document.getElementById('cluster-instances-tbody');
+    if (!tbody) return;
+    
+    if (instances.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">暂无集群实例</td></tr>';
+        return;
+    }
+    
+    // 按主从关系组织实例
+    const rows = [];
+    
+    instances.forEach(inst => {
+        // Master 行
+        const masterRow = createInstanceRow(inst, false);
+        rows.push(masterRow);
+        
+        // 如果有 Workers，展示 Worker 行
+        if (inst.workers && inst.workers.length > 0) {
+            inst.workers.forEach((workerId, index) => {
+                const workerRow = createWorkerRow(inst.instance_id, workerId, index, inst.workers.length);
+                rows.push(workerRow);
+            });
+        }
+    });
+    
+    tbody.innerHTML = rows.join('');
+}
+
+/**
+ * 创建 Master 实例行
+ */
+function createInstanceRow(inst, isWorker) {
+    const workerCount = inst.workers ? inst.workers.length : 0;
+    const statusClass = inst.status === 'running' ? 'status-running' : 
+                        inst.status === 'error' ? 'status-error' : 
+                        inst.status === 'offline' ? 'status-offline' : 'status-stopped';
+    const rowClass = inst.status === 'offline' ? 'instance-master instance-offline' : 'instance-master';
+    
+    return `
+        <tr class="${rowClass}">
+            <td>
+                <span class="instance-icon">${inst.mode === 'master' ? '👑' : '📦'}</span>
+                <strong>${inst.instance_id}</strong>
+            </td>
+            <td>
+                <span class="node-name" title="${inst.node_id}">${shortenNodeId(inst.node_id)}</span>
+            </td>
+            <td title="${inst.script_file}">
+                <span class="script-name">📜 ${getFileName(inst.script_file)}</span>
+            </td>
+            <td><span class="badge badge-${inst.mode === 'master' ? 'primary' : 'info'}">${inst.mode === 'master' ? 'Master' : 'Standalone'}</span></td>
+            <td><span class="status-dot ${statusClass}"></span>${inst.status}</td>
+            <td>${inst.users || '-'}</td>
+            <td>
+                <span class="worker-count ${workerCount > 0 ? 'has-workers' : ''}">${workerCount}</span>
+            </td>
+            <td class="actions">
+                ${inst.status === 'running' ? `
+                    <button class="btn btn-sm btn-danger" onclick="stopClusterInstance('${inst.instance_id}')" title="停止整个集群">⏹</button>
+                    ${inst.web_url ? `<a href="${inst.web_url}" target="_blank" class="btn btn-sm btn-info" title="打开 Locust Web UI">🎯</a>` : ''}
+                ` : `
+                    <button class="btn btn-sm btn-warning" onclick="removeClusterInstance('${inst.instance_id}')" title="删除实例">🗑</button>
+                `}
+            </td>
+        </tr>
+    `;
+}
+
+/**
+ * 创建 Worker 行
+ */
+function createWorkerRow(masterInstanceId, workerId, index, totalWorkers) {
+    const isLast = index === totalWorkers - 1;
+    const treeSymbol = isLast ? '└──' : '├──';
+    
+    return `
+        <tr class="instance-worker">
+            <td class="worker-indent">
+                <span class="tree-line">${treeSymbol}</span>
+                <span class="instance-icon">👷</span>
+                <span class="worker-id">${masterInstanceId}-worker-${index}</span>
+            </td>
+            <td>
+                <span class="node-name" title="${workerId}">${shortenNodeId(workerId)}</span>
+            </td>
+            <td class="worker-script">─</td>
+            <td><span class="badge badge-success">Worker</span></td>
+            <td><span class="status-dot status-running"></span>connected</td>
+            <td>─</td>
+            <td>─</td>
+            <td></td>
+        </tr>
+    `;
+}
+
+/**
+ * 缩短节点 ID 显示
+ */
+function shortenNodeId(nodeId) {
+    if (!nodeId) return '-';
+    // 格式: locust-node-77ddfdd9d9-gm2fq-4da4a94d
+    // 只显示最后两部分: gm2fq-4da4a94d
+    const parts = nodeId.split('-');
+    if (parts.length >= 2) {
+        return parts.slice(-2).join('-');
+    }
+    return nodeId.length > 20 ? nodeId.substring(0, 17) + '...' : nodeId;
+}
+
+/**
+ * 在集群中启动实例
+ */
+async function startClusterInstance() {
+    const scriptFile = document.getElementById('cluster-script-file').value;
+    const targetHost = document.getElementById('cluster-target-host').value;
+    const users = document.getElementById('cluster-users').value;
+    const spawnRate = document.getElementById('cluster-spawn-rate').value;
+    const runTime = document.getElementById('cluster-run-time').value;
+    const workerCount = document.getElementById('cluster-worker-count').value;
+    
+    if (!scriptFile) {
+        alert('请选择脚本文件');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/cluster/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                script_file: scriptFile,
+                target_host: targetHost,
+                users: users ? parseInt(users) : null,
+                spawn_rate: spawnRate ? parseInt(spawnRate) : 1,
+                run_time: runTime || null,
+                worker_count: workerCount ? parseInt(workerCount) : 0
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(`集群实例启动成功！\n实例ID: ${data.instance_id}`);
+            await refreshClusterStatus();
+        } else {
+            alert(`启动失败: ${data.message}`);
+        }
+    } catch (error) {
+        console.error('启动集群实例失败:', error);
+        alert('启动失败: ' + error.message);
+    }
+}
+
+/**
+ * 停止集群实例
+ */
+async function stopClusterInstance(instanceId) {
+    if (!confirm(`确定要停止实例 ${instanceId} 吗？`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/cluster/stop/${instanceId}`, {
+            method: 'POST'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('停止命令已发送');
+            await refreshClusterStatus();
+        } else {
+            alert(`停止失败: ${data.message}`);
+        }
+    } catch (error) {
+        console.error('停止集群实例失败:', error);
+        alert('停止失败: ' + error.message);
+    }
+}
+
+/**
+ * 删除集群实例
+ */
+async function removeClusterInstance(instanceId) {
+    if (!confirm(`确定要删除实例 ${instanceId} 吗？`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/cluster/remove/${instanceId}`, {
+            method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('实例已删除');
+            await refreshClusterStatus();
+        } else {
+            alert(`删除失败: ${data.message}`);
+        }
+    } catch (error) {
+        console.error('删除集群实例失败:', error);
+        alert('删除失败: ' + error.message);
+    }
+}
+
+/**
+ * 同步集群状态
+ */
+async function syncCluster() {
+    try {
+        const response = await fetch('/api/cluster/sync', {
+            method: 'POST'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('同步命令已发送');
+            setTimeout(refreshClusterStatus, 2000);
+        }
+    } catch (error) {
+        console.error('同步集群状态失败:', error);
+    }
+}
+
+// 辅助函数
+function getRoleBadge(role) {
+    const badges = {
+        'master': 'primary',
+        'worker': 'success',
+        'standalone': 'secondary'
+    };
+    return badges[role] || 'secondary';
+}
+
+function getModeBadge(mode) {
+    const badges = {
+        'master': 'primary',
+        'worker': 'success',
+        'standalone': 'info'
+    };
+    return badges[mode] || 'secondary';
+}
+
+function getFileName(path) {
+    return path ? path.split(/[/\\]/).pop() : '';
+}
+
+function formatTime(isoString) {
+    if (!isoString) return '-';
+    const date = new Date(isoString);
+    return date.toLocaleTimeString();
+}
+
+/**
+ * 强制重新选举
+ */
+async function forceReelection() {
+    if (!confirm('确定要强制重新选举吗？这会导致当前 Leader 失去领导权。')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/cluster/election/force', {
+            method: 'POST'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(data.message);
+            setTimeout(refreshClusterStatus, 3000);
+        } else {
+            alert(`操作失败: ${data.message}`);
+        }
+    } catch (error) {
+        console.error('强制选举失败:', error);
+        alert('操作失败: ' + error.message);
+    }
+}
+
+/**
+ * 获取 Leader 信息
+ */
+async function getLeaderInfo() {
+    try {
+        const response = await fetch('/api/cluster/leader');
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Leader 信息:', data);
+            return data;
+        }
+    } catch (error) {
+        console.error('获取 Leader 信息失败:', error);
+    }
+    return null;
+}
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    initCluster();
+    
+    // 定时刷新集群状态
+    setInterval(refreshClusterStatus, 10000);
 });

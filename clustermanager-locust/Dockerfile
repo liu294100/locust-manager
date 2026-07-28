@@ -1,48 +1,31 @@
-# 使用Python 3.9官方镜像作为基础镜像
-FROM python:3.9-slim
+# Lightweight Python base image
+FROM python:3.10.12-slim
 
-# 设置工作目录
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
 WORKDIR /app
 
-# 设置环境变量
-ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED=1
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
+# Install Python dependencies first for better layer caching
+ARG PIP_INDEX_URL
+COPY requirements.txt ./
+# Install dependencies without using any proxy; if PIP_INDEX_URL is provided, use it as mirror
+RUN if [ -n "$PIP_INDEX_URL" ]; then \
+      env -u HTTP_PROXY -u http_proxy -u HTTPS_PROXY -u https_proxy -u ALL_PROXY -u all_proxy -u NO_PROXY -u no_proxy python -m pip install --no-cache-dir -r requirements.txt -i "$PIP_INDEX_URL"; \
+    else \
+      env -u HTTP_PROXY -u http_proxy -u HTTPS_PROXY -u https_proxy -u ALL_PROXY -u all_proxy -u NO_PROXY -u no_proxy python -m pip install --no-cache-dir -r requirements.txt; \
+    fi
 
-# 安装系统依赖
-RUN apt-get update && apt-get install -y \
-    gcc \
-    g++ \
-    default-libmysqlclient-dev \
-    pkg-config \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# Copy source code
+COPY . .
 
-# 复制requirements文件并安装Python依赖
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Expose ports: 8088 for management UI, 8089 for Locust web UI
+EXPOSE 8088 8089
 
-# 复制应用代码
-COPY app/ ./app/
-COPY templates/ ./templates/
-COPY app.py .
-COPY init_database.sql .
+# Default variables (can be overridden at runtime)
+ENV LOCUST_FILE=demo_locust.py \
+    TARGET_HOST=
 
-# 创建必要的目录
-RUN mkdir -p /app/uploads /app/scripts /app/logs
-
-# 创建非root用户
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-RUN chown -R appuser:appuser /app
-USER appuser
-
-# 暴露端口
-EXPOSE 5000
-
-# 健康检查
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:5000/health || exit 1
-
-# 启动命令
+# Run Flask management interface by default
 CMD ["python", "app.py"]

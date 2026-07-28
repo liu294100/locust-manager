@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试导出功能</title>
+</head>
+<body>
+    <h1>测试导出功能</h1>
+    <button onclick="testExport()">测试导出</button>
+    <div id="result"></div>
+
+    <script>
+        // 模拟账户数据
+        const testAccounts = [
+            {
+                username: "test_user_001",
+                password: "test123456",
+                account_id: "M001",
+                account_type: "M",
+                token: "eyJhbGciOiJIUzI1NiJ9...",
+                m_account_id: "M001",
+                m_account_type: "M"
+            },
+            {
+                username: "test_user_002",
+                password: "test123456",
+                account_id: "M002",
+                account_type: "M",
+                token: "eyJhbGciOiJIUzI1NiJ9...",
+                m_account_id: "",
+                m_account_type: ""
+            }
+        ];
+
+        // 转换为CSV格式（与index.html中相同的函数）
+        function convertToCSV(accounts) {
+            const headers = ['username', 'password', 'account_id', 'account_type', 'token', 'm_account_id', 'm_account_type'];
+            const csvRows = [headers.join(',')];
+            
+            accounts.forEach(account => {
+                const row = headers.map(header => {
+                    const value = account[header] || '';
+                    return `"${value.toString().replace(/"/g, '""')}"`;
+                });
+                csvRows.push(row.join(','));
+            });
+            
+            return csvRows.join('\n');
+        }
+
+        function testExport() {
+            const csv = convertToCSV(testAccounts);
+            document.getElementById('result').innerHTML = `
+                <h2>导出结果：</h2>
+                <pre>${csv}</pre>
+                <p>字段数量检查：</p>
+                <ul>
+                    <li>标题行字段数：${csv.split('\n')[0].split(',').length}</li>
+                    <li>数据行1字段数：${csv.split('\n')[1].split(',').length}</li>
+                    <li>数据行2字段数：${csv.split('\n')[2].split(',').length}</li>
+                </ul>
+            `;
+        }
+    </script>
+</body>
+</html>

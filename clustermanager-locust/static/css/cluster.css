@@ -1,0 +1,558 @@
+/* 集群管理样式 */
+
+/* 集群统计信息 */
+#cluster-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 节点信息 */
+#current-node-info {
+    padding: 10px 15px;
+    background: #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.node-role {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.node-role.master {
+    background: #007bff;
+    color: white;
+}
+
+.node-role.worker {
+    background: #28a745;
+    color: white;
+}
+
+.node-role.standalone {
+    background: #6c757d;
+    color: white;
+}
+
+.node-status {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.node-status.online {
+    background: #d4edda;
+    color: #155724;
+}
+
+.node-status.offline {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.node-status.busy {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* 状态指示点 */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.status-dot.online, .status-dot.running {
+    background: #28a745;
+}
+
+.status-dot.offline, .status-dot.stopped {
+    background: #dc3545;
+}
+
+.status-dot.pending, .status-dot.starting {
+    background: #ffc107;
+    animation: pulse 1s infinite;
+}
+
+.status-dot.error {
+    background: #dc3545;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* 表格样式 */
+.cluster-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.cluster-table th,
+.cluster-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.cluster-table th {
+    background: #f1f3f5;
+    font-weight: 600;
+    color: #495057;
+}
+
+.cluster-table tr:hover {
+    background: #f8f9fa;
+}
+
+.cluster-table tr.offline {
+    opacity: 0.6;
+}
+
+/* 徽章 */
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-primary {
+    background: #007bff;
+    color: white;
+}
+
+.badge-success {
+    background: #28a745;
+    color: white;
+}
+
+.badge-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.badge-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.badge-warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.badge-danger {
+    background: #dc3545;
+    color: white;
+}
+
+/* 集群启动表单 */
+.cluster-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.cluster-form .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.cluster-form .form-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.cluster-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.cluster-form input,
+.cluster-form select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.cluster-form input:focus,
+.cluster-form select:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+/* 按钮 */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #1e7e34;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #138496;
+}
+
+/* 集群区域标题 */
+.cluster-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #007bff;
+}
+
+.cluster-section-title h3 {
+    margin: 0;
+    color: #333;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    #cluster-stats {
+        flex-direction: column;
+    }
+    
+    .cluster-form .form-row {
+        flex-direction: column;
+    }
+    
+    .cluster-form .form-group {
+        width: 100%;
+    }
+}
+
+/* 数据表格 */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.data-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    white-space: nowrap;
+}
+
+.data-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.data-table tbody tr.offline {
+    opacity: 0.6;
+    background: #fff5f5;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* 集群统计卡片 */
+.cluster-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.cluster-stats .stat-item {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.cluster-stats .stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.cluster-stats .stat-label {
+    font-size: 13px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* ========================================
+   集群实例树形展示样式 - Master/Worker 层级
+   ======================================== */
+
+/* Master 实例行 */
+.instance-master {
+    background: #f8fafc;
+    border-left: 3px solid #007bff;
+}
+
+.instance-master:hover {
+    background: #e3f2fd;
+}
+
+.instance-master td:first-child {
+    font-weight: 600;
+}
+
+/* Worker 实例行 */
+.instance-worker {
+    background: #fefefe;
+    border-left: 3px solid #28a745;
+}
+
+.instance-worker:hover {
+    background: #e8f5e9;
+}
+
+.instance-worker td {
+    color: #555;
+    font-size: 13px;
+}
+
+/* 离线实例行 */
+.instance-offline {
+    opacity: 0.5;
+    border-left-color: #dc3545 !important;
+    background: #fff5f5 !important;
+}
+
+.instance-offline:hover {
+    opacity: 0.7;
+}
+
+/* Worker 缩进 - 树形结构 */
+.worker-indent {
+    padding-left: 30px !important;
+    white-space: nowrap;
+}
+
+/* 树形连接线 */
+.tree-line {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: #adb5bd;
+    margin-right: 8px;
+    font-size: 14px;
+    user-select: none;
+}
+
+/* 实例图标 */
+.instance-icon {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+/* Worker ID 文本 */
+.worker-id {
+    color: #6c757d;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+}
+
+/* 节点名称 - 截断显示 */
+.node-name {
+    display: inline-block;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    color: #495057;
+    background: #f1f3f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.node-name:hover {
+    background: #e9ecef;
+}
+
+/* 脚本名称 */
+.script-name {
+    display: inline-block;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #495057;
+}
+
+/* Worker 脚本列 - 用横线表示继承自 Master */
+.worker-script {
+    color: #adb5bd;
+    text-align: center;
+}
+
+/* Worker 数量徽章 */
+.worker-count {
+    display: inline-block;
+    min-width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.worker-count.has-workers {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* 状态点颜色增强 */
+.status-dot.status-running {
+    background: #28a745;
+    box-shadow: 0 0 4px rgba(40, 167, 69, 0.5);
+}
+
+.status-dot.status-error {
+    background: #dc3545;
+    box-shadow: 0 0 4px rgba(220, 53, 69, 0.5);
+}
+
+.status-dot.status-stopped {
+    background: #6c757d;
+}
+
+.status-dot.status-offline {
+    background: #dc3545;
+    animation: pulse 1.5s infinite;
+}
+
+/* 操作按钮列 */
+.actions {
+    white-space: nowrap;
+}
+
+.actions .btn {
+    margin-right: 4px;
+}
+
+.actions .btn:last-child {
+    margin-right: 0;
+}
+
+/* 按钮小尺寸调整 */
+.btn-outline {
+    background: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline:hover {
+    background: #6c757d;
+    color: white;
+}

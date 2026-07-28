@@ -1,0 +1,22 @@
+{
+  "cluster": {
+    "enabled": true,
+    "capacity": 10,
+    "cleanup_interval": 60,
+    "pending_timeout": 60,
+    "redis": {
+      "host": "xxx",
+      "port": 6379,
+      "password": "",
+      "db": 10
+    }
+  },
+  "database": {
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "database": "locust_auth",
+    "user": "root",
+    "password": "root"
+  }
+}

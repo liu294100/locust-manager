@@ -17,54 +17,48 @@ def login_required(f):
             if request.path.startswith('/api/') or request.is_json:
                 return jsonify({'success': False, 'message': '请先登录', 'redirect': '/login'}), 401
             # 否则重定向到登录页面
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     return decorated_function
 
-def authenticate_user(username: str, password: str) -> tuple:
+def authenticate_user(username: str, password: str) -> tuple[bool, str, dict]:
     """用户认证函数
     
     Returns:
         tuple: (success, message, user_info)
     """
     if not username or not password:
-        return False, "用户名和密码不能为空", None
+        return False, "用户名和密码不能为空", {}
     
-    user = db_manager.verify_user(username, password)
-    if user:
-        return True, "登录成功", user
-    else:
-        return False, "用户名或密码错误", None
+    try:
+        user = db_manager.verify_user(username, password)
+        if user:
+            return True, "登录成功", user
+        else:
+            return False, "用户名或密码错误", {}
+    except Exception as e:
+        return False, f"登录验证失败: {str(e)}", {}
 
 def create_session(user_info: dict):
     """创建用户会话"""
-    session.permanent = True
     session['user_id'] = user_info['id']
     session['username'] = user_info['username']
-    session['role'] = user_info['role']
+    session.permanent = True
 
 def clear_session():
     """清除用户会话"""
-    session.clear()
+    session.pop('user_id', None)
+    session.pop('username', None)
 
 def get_current_user():
     """获取当前登录用户信息"""
-    if 'user_id' in session:
+    if 'user_id' in session and 'username' in session:
         return {
             'id': session['user_id'],
-            'username': session['username'],
-            'role': session['role']
+            'username': session['username']
         }
     return None
 
-def admin_required(f):
-    """管理员权限验证装饰器"""
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        user = get_current_user()
-        if not user or user['role'] != 'admin':
-            if request.path.startswith('/api/') or request.is_json:
-                return jsonify({'success': False, 'message': '需要管理员权限'}), 403
-            return redirect(url_for('index'))
-        return f(*args, **kwargs)
-    return decorated_function
+def is_logged_in() -> bool:
+    """检查用户是否已登录"""
+    return 'user_id' in session and 'username' in session

@@ -1,0 +1,26 @@
+# Nacos 配置示例
+# DataId: locust-platform-config.yaml
+# Group: DEFAULT_GROUP
+# Namespace: test (UUID: e6328eb7-72dc-4461-b2fa-387674c8a656)
+
+# 集群配置
+cluster:
+  enabled: true
+  capacity: 10                 # 每个节点最大可运行实例数
+  worker_processes: 1          # 每个 Worker 节点启动的进程数（充分利用多核CPU，建议设为 Pod CPU核数-1）
+  cleanup_interval: 60         # 实例清理间隔（秒），自动清理已停止/离线节点的实例
+  pending_timeout: 60          # pending 状态超时时间（秒），超时后视为启动失败自动清理
+  redis:
+    host: xxx
+    port: 6379
+    password: ""
+    db: 10
+
+# 数据库配置（可选，不配置则使用 SQLite）
+database:
+  type: mysql                  # mysql 或 sqlite
+  host: localhost
+  port: 3306
+  database: locust_auth
+  user: root
+  password: root

@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
 """
-Locust Manager Application Package
-压测服务管理器应用包
+Locust管理系统认证模块
 """
-
-__version__ = "1.0.0"
-__author__ = "Locust Manager Team"

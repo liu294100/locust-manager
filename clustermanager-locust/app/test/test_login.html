@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录测试</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>登录测试页面</h1>
+    <p><strong>测试结果：</strong></p>
+    <div id="result"></div>
+    
+    <h2>手动测试</h2>
+    <form id="testForm">
+        <p>用户名: <input type="text" id="username" value="locusttest"></p>
+        <p>密码: <input type="password" id="password" value="xxxxxx"></p>
+        <button type="submit">测试登录</button>
+    </form>
+    
+    <script>
+        // 自动测试
+        async function autoTest() {
+            try {
+                const formData = new FormData();
+                formData.append('username', 'locusttest');
+                formData.append('password', 'xxxxxx');
+                
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                document.getElementById('result').innerHTML = 
+                    `<p style="color: ${result.success ? 'green' : 'red'}">
+                        ${result.success ? '✅ 登录成功' : '❌ 登录失败'}<br>
+                        消息: ${result.message}<br>
+                        状态码: ${response.status}
+                    </p>`;
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    `<p style="color: red">❌ 网络错误: ${error.message}</p>`;
+            }
+        }
+        
+        // 手动测试
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+                
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                alert(`${result.success ? '登录成功' : '登录失败'}: ${result.message}`);
+            } catch (error) {
+                alert(`网络错误: ${error.message}`);
+            }
+        });
+        
+        // 页面加载时自动测试
+        window.onload = autoTest;
+    </script>
+</body>
+</html>
