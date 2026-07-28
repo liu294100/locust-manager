@@ -56,6 +56,7 @@ python app.py
 
 4. **访问界面**
 打开浏览器访问 [http://localhost:8088](http://localhost:8088)
+默认账号 admin  密码 123456
 
 ### Docker 快速部署
 
@@ -808,7 +809,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8088
-  type: LoadBalancer
+  : LoadBalancer
 ```
 
 ### 6. 容器化最佳实践
@@ -918,8 +919,6 @@ accounts = [
     {
         "username": "test001",      # 登录用户名
         "password": "123456",       # 登录密码
-        "account_id": "A001",       # 账户ID
-        "account_type": "M"         # 账户类型
     }
 ]
 ```
@@ -931,7 +930,7 @@ accounts = [
 SIGN_SECRET_ID_HEADER = "secretId"
 SIGN_TIMESTAMP_HEADER = "timestamp"
 SIGN_SIGNATURE_HEADER = "signature"
-SECRET_FETCH_PATH = "/api/secret/fetch"
+SECRET_FETCH_PATH = "/api/**"
 ```
 
 ## 💡 最佳实践
