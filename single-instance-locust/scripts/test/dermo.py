@@ -5,7 +5,7 @@ class TraderUser(HttpUser):
 
     @task
     def get_order_list(self):
-        url = "/api/v1/www/order/list"
+        url = "/api/v1/www/list"
         headers = {
             "Authorization": "eyJhbGciOiJIUzI1NiJ9..,
             "Content-Type": "application/json"

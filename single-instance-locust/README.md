@@ -1,6 +1,6 @@
-# Chief StressTest Locust
+# Locust Cluster Manager
 
-基于 Locust 的企业级压力测试工具，支持多账号并发测试、智能签名认证和可视化管理界面。
+基于 Locust 的企业级压力测试管理平台，支持 Web UI 管理、多实例并发测试、集群分布式压测、脚本热加载、智能签名认证和可视化管理界面。
 
 ## 📋 目录
 
@@ -10,6 +10,7 @@
 - [脚本开发指南](#脚本开发指南)
 - [部署方式](#部署方式)
 - [配置说明](#配置说明)
+- [集群模式](#集群模式)
 - [最佳实践](#最佳实践)
 - [故障排除](#故障排除)
 - [API 参考](#api-参考)
@@ -23,6 +24,9 @@
 - **脚本热加载**: 支持动态上传和切换测试脚本
 - **实时监控**: 实时显示测试状态和性能指标
 - **多环境支持**: 支持开发、测试、生产环境配置
+- **集群模式**: 支持多节点分布式压测，自动负载均衡
+- **Worker 代理**: Worker 节点自动代理请求到 Master，统一管理
+- **cURL 转脚本**: 支持将 cURL 命令转换为 Locust 测试脚本
 
 ## 🏃‍♂️ 快速开始
 
@@ -36,8 +40,8 @@
 
 1. **克隆项目**
 ```bash
-git clone https://xxx.com/chief/chief-stresstest-locust.git
-cd chief-stresstest-locust
+git clone https://github.com/yourorg/locust-cluster-manager.git
+cd locust-cluster-manager
 ```
 
 2. **安装依赖**
@@ -52,15 +56,16 @@ python app.py
 
 4. **访问界面**
 打开浏览器访问 [http://localhost:8088](http://localhost:8088)
+默认账号 admin  密码 123456
 
 ### Docker 快速部署
 
 ```bash
 # 构建镜像
-docker build -t chief-stresstest-locust:latest .
+docker build -t locust-cluster-manager:latest .
 
 # 启动服务
-docker run --rm -p 8088:8088 chief-stresstest-locust:latest
+docker run --rm -p 8088:8088 locust-cluster-manager:latest
 
 # 访问 http://localhost:8088
 ```
@@ -138,12 +143,13 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
 1. **脚本命名规范**
    ```bash
    # 推荐命名格式
-   trader_api_test.py          # 交易API测试
-   user_login_stress.py        # 用户登录压测
-   order_query_performance.py  # 订单查询性能测试
+   api_stress_test.py              # API压力测试
+   user_login_stress.py            # 用户登录压测
+   query_performance.py            # 查询性能测试
    ```
 
 2. **脚本结构建议**
+   
    ```python
    # 标准脚本模板
    from locust import HttpUser, task, between
@@ -171,7 +177,7 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
            """低频任务"""
            pass
    ```
-
+   
 3. **快速迭代流程**
    ```bash
    # 开发流程示例
@@ -215,9 +221,9 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
 
 2. **设置目标主机**
    ```
-   开发环境: https://api.xxx.com
-   测试环境: https://api.test.stx365.com
-   生产环境: https://api.prod.stx365.com
+   开发环境: https://api.dev.example.com
+   测试环境: https://api.test.example.com
+   生产环境: https://api.prod.example.com
    ```
 
 3. **验证配置**
@@ -292,7 +298,7 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
 #### 域名访问模式
 当使用域名（如 `locust.example.com`）访问时：
 - 显示域名配置表单
-- 默认域名：`https://locust-service.test.stx365.com/`
+- 默认域名：`https://locust-service.example.com/`
 - 可以修改为实际的生产环境域名
 - 适用于生产环境和远程访问
 
@@ -395,8 +401,8 @@ import json
 
 # 账号配置
 accounts = [
-    {"username": "910055", "password": "123456", "account_id": "M910055", "account_type": "M"},
-    {"username": "910018", "password": "123456", "account_id": "M910018", "account_type": "M"},
+    {"username": "test001", "password": "123456"},
+    {"username": "test002", "password": "123456"},
 ]
 
 class TraderUser(HttpUser):
@@ -409,8 +415,8 @@ class TraderUser(HttpUser):
     
     def login(self):
         """登录获取 token"""
-        login_url = "/sso-server/test/test-login"
-        params = {"c": self.account["username"], "p": self.account["password"]}
+        login_url = "/api/v1/auth/login"
+        params = {"username": self.account["username"], "password": self.account["password"]}
         
         with self.client.get(login_url, params=params, catch_response=True) as resp:
             if resp.status_code == 200:
@@ -421,18 +427,16 @@ class TraderUser(HttpUser):
                 resp.failure(f"登录失败: {resp.text}")
     
     @task(1)
-    def query_orders(self):
-        """查询订单任务"""
+    def query(self):
+        """查询任务"""
         if not hasattr(self, 'headers'):
             return
             
         query_data = {
-            "AccountID": self.account["account_id"],
-            "AccountType": self.account["account_type"],
-            "Exchange": "HK"
+            "Exc": "DEMO"
         }
         
-        with self.client.post("/chief-trader-x/top/pc/order/listByAccountId", 
+        with self.client.post("/api/v1/xxx", 
                              headers=self.headers,
                              data=json.dumps(query_data),
                              catch_response=True) as resp:
@@ -446,7 +450,7 @@ class TraderUser(HttpUser):
 
 #### 1. 签名认证
 
-对于需要签名认证的接口，可以使用内置的签名功能：
+对于需要签名认证的接口：
 
 ```python
 def _get_signature_headers(self, payload_dict: dict | None):
@@ -485,10 +489,7 @@ def low_frequency_task(self):
 
 项目提供了多个预置脚本，位于 `scripts/` 目录：
 
-- `Trader/trader_locust.py`: 基础交易接口测试
-- `Trader/trader_us_locust.py`: 美股交易接口测试
-- `Trader/order_fees_locust.py`: 订单费用查询测试
-- `Trader/order_modify_test.py`: 订单修改测试
+- `demo/api_locust.py`: 基础 API 接口测试
 
 ## 🐳 部署方式
 
@@ -497,8 +498,8 @@ def low_frequency_task(self):
 #### 基础安装
 ```bash
 # 克隆项目
-git clone https://xxx.com/chief/chief-stresstest-locust.git
-cd chief-stresstest-locust
+git clone https://github.com/yourorg/locust-cluster-manager.git
+cd locust-cluster-manager
 
 # 创建虚拟环境（推荐）
 python -m venv venv
@@ -518,8 +519,8 @@ python app.py
 #### 开发环境配置
 ```bash
 # 设置环境变量
-export TARGET_HOST=https://api.xxx.com
-export LOCUST_FILE=Trader/trader_locust.py
+export TARGET_HOST=https://api.dev.example.com
+export LOCUST_FILE=demo/api_locust.py
 export WEB_PORT=8088
 
 # 启动开发服务
@@ -531,17 +532,17 @@ python app.py
 #### 基础部署
 ```bash
 # 构建镜像
-docker build -t chief-stresstest-locust:latest .
+docker build -t locust-cluster-manager:latest .
 
 # 运行容器（基础模式）
-docker run --rm -p 8088:8088 chief-stresstest-locust:latest
+docker run --rm -p 8088:8088 locust-cluster-manager:latest
 
 # 运行容器（带环境变量）
 docker run --rm \
   -p 8088:8088 \
-  -e TARGET_HOST=https://api.xxx.com \
-  -e LOCUST_FILE=Trader/trader_locust.py \
-  chief-stresstest-locust:latest
+  -e TARGET_HOST=https://api.dev.example.com \
+  -e LOCUST_FILE=demo/api_locust.py \
+  locust-cluster-manager:latest
 ```
 
 #### 高级配置
@@ -550,8 +551,8 @@ docker run --rm \
 docker run --rm \
   -p 8088:8088 \
   -v $(pwd)/custom-scripts:/app/scripts \
-  -e TARGET_HOST=https://api.test.stx365.com \
-  chief-stresstest-locust:latest
+  -e TARGET_HOST=https://api.test.example.com \
+  locust-cluster-manager:latest
 
 # 使用自定义网络
 docker network create locust-network
@@ -559,23 +560,23 @@ docker run --rm \
   --network locust-network \
   --name locust-service \
   -p 8088:8088 \
-  chief-stresstest-locust:latest
+  locust-cluster-manager:latest
 ```
 
 #### 镜像构建选项
 ```bash
 # 方式 A：使用默认镜像源
-docker build -t chief-stresstest-locust:latest .
+docker build -t locust-cluster-manager:latest .
 
 # 方式 B：使用国内镜像源（推荐）
 docker build \
   --build-arg PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
-  -t chief-stresstest-locust:latest .
+  -t locust-cluster-manager:latest .
 
 # 方式 C：多阶段构建（优化镜像大小）
 docker build \
   --target production \
-  -t chief-stresstest-locust:prod .
+  -t locust-cluster-manager:prod .
 ```
 
 ### 3. Docker Compose 部署
@@ -591,8 +592,8 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - TARGET_HOST=https://api.xxx.com
-      - LOCUST_FILE=Trader/trader_locust.py
+      - TARGET_HOST=https://api.dev.example.com
+      - LOCUST_FILE=demo/api_locust.py
       - WEB_PORT=8088
     volumes:
       - ./scripts:/app/scripts
@@ -616,8 +617,8 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - TARGET_HOST=https://api.xxx.com
-      - LOCUST_FILE=Trader/trader_locust.py
+      - TARGET_HOST=https://api.dev.example.com
+      - LOCUST_FILE=demo/api_locust.py
       - LOG_LEVEL=DEBUG
     volumes:
       - ./scripts:/app/scripts
@@ -628,8 +629,8 @@ services:
     ports:
       - "8089:8088"
     environment:
-      - TARGET_HOST=https://api.test.stx365.com
-      - LOCUST_FILE=Trader/trader_us_locust.py
+      - TARGET_HOST=https://api.test.example.com
+      - LOCUST_FILE=demo/query_locust.py
     volumes:
       - ./scripts:/app/scripts
       - ./test-logs:/app/logs
@@ -658,10 +659,10 @@ docker-compose down
 docker build \
   --build-arg PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
   --build-arg BUILD_ENV=production \
-  -t chief-stresstest-locust:prod-v1.0.0 .
+  -t locust-cluster-manager:prod-v1.0.0 .
 
 # 标记最新版本
-docker tag chief-stresstest-locust:prod-v1.0.0 chief-stresstest-locust:prod-latest
+docker tag locust-cluster-manager:prod-v1.0.0 locust-cluster-manager:prod-latest
 ```
 
 #### 生产环境运行
@@ -670,19 +671,19 @@ docker tag chief-stresstest-locust:prod-v1.0.0 chief-stresstest-locust:prod-late
 docker run -d \
   --name locust-service \
   -p 8088:8088 \
-  -e TARGET_HOST=https://api.prod.stx365.com \
-  -e LOCUST_FILE=Trader/trader_locust.py \
+  -e TARGET_HOST=https://api.prod.example.com \
+  -e LOCUST_FILE=demo/api_locust.py \
   --restart unless-stopped \
   --memory=2g \
   --cpus=2 \
-  chief-stresstest-locust:prod-latest
+  locust-cluster-manager:prod-latest
 
 # 高可用部署
 docker run -d \
   --name locust-service \
   -p 8088:8088 \
-  -e TARGET_HOST=https://api.prod.stx365.com \
-  -e LOCUST_FILE=Trader/trader_locust.py \
+  -e TARGET_HOST=https://api.prod.example.com \
+  -e LOCUST_FILE=demo/api_locust.py \
   -v /data/locust/scripts:/app/scripts \
   -v /data/locust/logs:/app/logs \
   --restart unless-stopped \
@@ -691,7 +692,7 @@ docker run -d \
   --log-driver=json-file \
   --log-opt max-size=100m \
   --log-opt max-file=3 \
-  chief-stresstest-locust:prod-latest
+  locust-cluster-manager:prod-latest
 ```
 
 #### 生产环境 Compose 配置
@@ -701,12 +702,12 @@ version: '3.8'
 
 services:
   locust-service:
-    image: chief-stresstest-locust:prod-latest
+    image: locust-cluster-manager:prod-latest
     ports:
       - "8088:8088"
     environment:
-      - TARGET_HOST=https://api.prod.stx365.com
-      - LOCUST_FILE=Trader/trader_locust.py
+      - TARGET_HOST=https://api.prod.example.com
+      - LOCUST_FILE=demo/api_locust.py
       - LOG_LEVEL=INFO
       - WEB_PORT=8088
     volumes:
@@ -768,14 +769,14 @@ spec:
     spec:
       containers:
       - name: locust
-        image: chief-stresstest-locust:prod-latest
+        image: locust-cluster-manager:prod-latest
         ports:
         - containerPort: 8088
         env:
         - name: TARGET_HOST
-          value: "https://api.prod.stx365.com"
+          value: "https://api.prod.example.com"
         - name: LOCUST_FILE
-          value: "Trader/trader_locust.py"
+          value: "demo/api_locust.py"
         resources:
           requests:
             memory: "1Gi"
@@ -808,7 +809,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8088
-  type: LoadBalancer
+  : LoadBalancer
 ```
 
 ### 6. 容器化最佳实践
@@ -847,15 +848,15 @@ CMD ["python", "app.py"]
 ```bash
 # 创建环境变量文件
 cat > .env << EOF
-TARGET_HOST=https://api.prod.stx365.com
-LOCUST_FILE=Trader/trader_locust.py
+TARGET_HOST=https://api.prod.example.com
+LOCUST_FILE=demo/api_locust.py
 WEB_PORT=8088
 LOG_LEVEL=INFO
 MAX_WORKERS=4
 EOF
 
 # 使用环境变量文件
-docker run --rm --env-file .env -p 8088:8088 chief-stresstest-locust:latest
+docker run --rm --env-file .env -p 8088:8088 locust-cluster-manager:latest
 ```
 
 #### 数据持久化
@@ -870,7 +871,7 @@ docker run -d \
   -p 8088:8088 \
   -v locust-scripts:/app/scripts \
   -v locust-logs:/app/logs \
-  chief-stresstest-locust:latest
+  locust-cluster-manager:latest
 ```
 
 ### 7. 部署验证
@@ -904,8 +905,8 @@ wrk -t12 -c400 -d30s http://localhost:8088/
 
 | 变量名 | 说明 | 默认值 | 示例 |
 |--------|------|--------|------|
-| `TARGET_HOST` | 目标测试主机 | 无 | `https://api.xxx.com` |
-| `LOCUST_FILE` | 默认脚本文件 | `trader_locust_demo.py` | `Trader/trader_locust.py` |
+| `TARGET_HOST` | 目标测试主机 | 无 | `https://api.dev.example.com` |
+| `LOCUST_FILE` | 默认脚本文件 | `locust_demo.py` | `demo/api_locust.py` |
 | `WEB_PORT` | Web UI 端口 | `8088` | `8089` |
 | `LOCUST_PORT` | Locust 服务端口 | `8089` | `8090` |
 
@@ -916,10 +917,8 @@ wrk -t12 -c400 -d30s http://localhost:8088/
 ```python
 accounts = [
     {
-        "username": "910055",      # 登录用户名
-        "password": "123456",      # 登录密码
-        "account_id": "M910055",   # 账户ID
-        "account_type": "M"        # 账户类型
+        "username": "test001",      # 登录用户名
+        "password": "123456",       # 登录密码
     }
 ]
 ```
@@ -931,7 +930,7 @@ accounts = [
 SIGN_SECRET_ID_HEADER = "secretId"
 SIGN_TIMESTAMP_HEADER = "timestamp"
 SIGN_SIGNATURE_HEADER = "signature"
-SECRET_FETCH_PATH = "/chief-trader-x/top/secret/once/fetch"
+SECRET_FETCH_PATH = "/api/**"
 ```
 
 ## 💡 最佳实践
@@ -993,7 +992,7 @@ python app.py --port 8089
 ModuleNotFoundError: No module named 'locust'
 
 # 解决方案
-# 检查 Python 版本（需要 3.7+）
+# 检查 Python 版本（需要 3.10+）
 python --version
 
 # 创建虚拟环境
@@ -1065,7 +1064,7 @@ ERROR [internal] load metadata for docker.io/library/python:3.10-slim
 docker system prune -a
 
 # 重新构建（无缓存）
-docker build --no-cache -t chief-stresstest-locust:latest .
+docker build --no-cache -t locust-cluster-manager:latest .
 
 # 使用国内镜像源
 docker build --build-arg PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple .
@@ -1110,11 +1109,11 @@ docker run --network host ...
 **问题：脚本导入失败**
 ```bash
 # 症状
-ImportError: No module named 'scripts.Trader.trader_locust'
+ImportError: No module named 'scripts.demo.api_locust'
 
 # 解决方案
 # 检查文件路径
-ls -la scripts/Trader/trader_locust.py
+ls -la scripts/demo/api_locust.py
 
 # 检查 Python 路径
 export PYTHONPATH="${PYTHONPATH}:/app"
@@ -1333,9 +1332,8 @@ curl http://localhost:8088/stats/requests
 
 #### 3. 社区支持
 - [Locust 官方文档](https://docs.locust.io/)
-- [GitHub Issues](https://github.com/locustio/locust/issues)
+- [GitHub Issues](https://github.com/yourorg/locust-cluster-manager/issues)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/locust)
-- 内部技术支持：联系开发团队
 
 #### 4. 报告问题
 提交问题时请包含：
@@ -1374,8 +1372,8 @@ POST /start
 Content-Type: application/json
 
 {
-    "script": "trader_locust.py",
-    "host": "https://api.xxx.com",
+    "script": "api_locust.py",
+    "host": "https://api.dev.example.com",
     "users": 10,
     "spawn_rate": 2
 }
@@ -1418,6 +1416,400 @@ def on_test_stop(environment, **kwargs):
     print("测试结束")
 ```
 
+## 🌐 集群模式
+
+### 概述
+
+集群模式允许多个 Locust 节点协同工作，通过 Redis 实现节点注册、发现和状态同步。支持以下部署架构：
+
+- **单机多实例**: 单节点运行多个 Locust 实例
+- **分布式集群**: 多节点协同，支持 Master/Worker 模式
+- **弹性伸缩**: 动态添加/移除 Worker 节点
+
+### 架构设计
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Redis                               │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │ 节点注册表   │  │ 实例状态    │  │ 命令通道    │         │
+│  │ (Hash)      │  │ (Hash)      │  │ (Pub/Sub)  │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘         │
+└─────────────────────────────────────────────────────────────┘
+           │                │                │
+           ▼                ▼                ▼
+┌──────────────────────────────────────────────────────────────┐
+│                      管理节点 (Master)                        │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
+│  │ Web UI      │  │ 集群管理器   │  │ 节点注册    │          │
+│  │ :8088       │  │             │  │             │          │
+│  └─────────────┘  └─────────────┘  └─────────────┘          │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │ Locust Master 实例 (多个)                            │    │
+│  │ :8089, :8090, ...  ← Web UI                         │    │
+│  │ :5557, :5559, ...  ← Worker 通信                    │    │
+│  └─────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────┘
+           │                                    │
+           ▼                                    ▼
+┌─────────────────────┐              ┌─────────────────────┐
+│   Worker 节点 1     │              │   Worker 节点 2     │
+│  ┌───────────────┐  │              │  ┌───────────────┐  │
+│  │ Locust Worker │  │              │  │ Locust Worker │  │
+│  │ (多个)        │  │              │  │ (多个)        │  │
+│  └───────────────┘  │              │  └───────────────┘  │
+└─────────────────────┘              └─────────────────────┘
+```
+
+### Redis 配置
+
+默认使用以下 Redis 配置（可通过环境变量覆盖）：
+
+```yaml
+host: localhost
+port: 6379
+password: (无)
+database: 9
+```
+
+### 环境变量
+
+| 变量名 | 说明 | 默认值 |
+|--------|------|--------|
+| `CLUSTER_ENABLED` | 是否启用集群模式 | `true` |
+| `REDIS_HOST` | Redis 主机地址 | `localhost` |
+| `REDIS_PORT` | Redis 端口 | `6379` |
+| `REDIS_PASSWORD` | Redis 密码 | 空 |
+| `REDIS_DB` | Redis 数据库编号 | `10` |
+| `NODE_ROLE` | 节点角色 | `standalone` |
+| `NODE_CAPACITY` | 节点最大实例容量 | `10` |
+| `NODE_ID` | 节点唯一标识 | 自动生成 |
+| `NODE_IP` | 节点 IP 地址 | 自动检测 |
+
+### Nacos 配置项
+
+| 配置路径 | 说明 | 默认值 |
+|----------|------|--------|
+| `cluster.enabled` | 是否启用集群 | `false` |
+| `cluster.capacity` | 节点最大实例容量 | `10` |
+| `cluster.cleanup_interval` | 实例自动清理间隔（秒） | `60` |
+| `cluster.redis.host` | Redis 主机 | `localhost` |
+| `cluster.redis.port` | Redis 端口 | `6379` |
+| `cluster.redis.password` | Redis 密码 | 空 |
+| `cluster.redis.db` | Redis 数据库 | `9` |
+| `database.type` | 数据库类型 | `sqlite` |
+| `database.host` | MySQL 主机 | `localhost` |
+| `database.port` | MySQL 端口 | `3306` |
+| `database.database` | 数据库名 | `locust_auth` |
+| `database.user` | 数据库用户名 | `root` |
+| `database.password` | 数据库密码 | `root` |
+
+### 实例自动清理机制
+
+集群模式下，系统会自动清理无效的实例记录：
+
+1. **启动时清理** — Pod 启动后立即检查本节点 Redis 记录，清理实际不存在的进程（解决重新部署后残留数据）
+2. **定时清理** — 每隔 `cleanup_interval` 秒执行一次，清理：
+   - 节点已离线的实例
+   - 状态为 `stopped` 或 `error` 的实例
+   - Workers 列表中已下线的节点
+3. **停止时即时清理** — 停止实例后立即从 Redis 删除，无需等待定时清理
+
+### 快速开始
+
+#### 1. 单节点模式（开发环境）
+
+```bash
+# 启用集群功能但以单节点运行
+export CLUSTER_ENABLED=true
+export NODE_ROLE=standalone
+
+python app.py
+```
+
+#### 2. Docker 单节点
+
+```bash
+docker-compose --profile single up -d
+```
+
+#### 3. Docker 集群模式
+
+```bash
+# 启动 1 Master + 3 Workers
+docker-compose --profile cluster up -d
+
+# 查看集群状态
+curl http://localhost:8088/api/cluster/status
+
+# 查看所有节点
+curl http://localhost:8088/api/cluster/nodes
+```
+
+### API 接口
+
+#### 集群状态
+```http
+GET /api/cluster/status
+
+Response:
+{
+    "success": true,
+    "cluster_enabled": true,
+    "current_node": { ... },
+    "stats": {
+        "total_nodes": 4,
+        "online_nodes": 4,
+        "total_capacity": 40,
+        "running_instances": 5,
+        "cluster_instances": 2
+    }
+}
+```
+
+#### 节点列表
+```http
+GET /api/cluster/nodes
+
+Response:
+{
+    "success": true,
+    "nodes": [
+        {
+            "node_id": "locust-master",
+            "ip_address": "172.18.0.2",
+            "port": 8088,
+            "role": "master",
+            "status": "online",
+            "capacity": 10,
+            "running_instances": 2,
+            "cpu_cores": 4,
+            "memory_mb": 8192
+        }
+    ],
+    "count": 4
+}
+```
+
+#### 启动集群实例
+```http
+POST /api/cluster/start
+Content-Type: application/json
+
+{
+    "script_file": "scripts/demo/api_locust.py",
+    "target_host": "https://api.test.example.com",
+    "users": 100,
+    "spawn_rate": 10,
+    "worker_count": 3,        // 0 = 单机模式，>0 = 分布式模式
+    "preferred_nodes": []     // 可选：优先使用的节点
+}
+
+Response:
+{
+    "success": true,
+    "message": "集群实例创建中，Master: locust-master, Workers: 3",
+    "instance_id": "cluster-a1b2c3d4"
+}
+```
+
+#### 停止集群实例
+```http
+POST /api/cluster/stop/{instance_id}
+
+Response:
+{
+    "success": true,
+    "message": "停止命令已发送"
+}
+```
+
+#### 删除集群实例
+```http
+DELETE /api/cluster/remove/{instance_id}
+
+Response:
+{
+    "success": true,
+    "message": "实例已删除"
+}
+```
+
+### Kubernetes 部署
+
+```yaml
+# k8s-cluster-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locust
+      role: master
+  template:
+    metadata:
+      labels:
+        app: locust
+        role: master
+    spec:
+      containers:
+      - name: locust
+        image: locust-cluster-manager:latest
+        env:
+        - name: CLUSTER_ENABLED
+          value: "true"
+        - name: NODE_ROLE
+          value: "master"
+        - name: REDIS_HOST
+          value: "redis-service"
+        ports:
+        - containerPort: 8088
+        - containerPort: 8089
+        - containerPort: 5557
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: locust
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: locust
+        role: worker
+    spec:
+      containers:
+      - name: locust
+        image: locust-cluster-manager:latest
+        env:
+        - name: CLUSTER_ENABLED
+          value: "true"
+        - name: NODE_ROLE
+          value: "worker"
+        - name: REDIS_HOST
+          value: "redis-service"
+```
+
+### 集群管理最佳实践
+
+1. **资源规划**
+   - Master 节点：2 CPU / 2GB 内存
+   - Worker 节点：2-4 CPU / 2-4GB 内存
+   - 每个 Worker 可支持约 1000-2000 并发用户
+
+2. **网络配置**
+   - 确保所有节点能访问 Redis
+   - Master 需要开放 5557 端口供 Worker 连接
+   - 建议使用内网通信
+
+3. **监控告警**
+   - 监控 Redis 连接状态
+   - 监控节点心跳
+   - 设置节点离线告警
+
+4. **故障恢复**
+   - Worker 断线后会自动尝试重连
+   - Master 故障需要手动重启
+   - 建议配置 Redis 持久化
+
+### Worker 节点代理机制
+
+在集群模式下，Worker 节点会自动将 HTTP 请求代理转发到 Master 节点，实现：
+
+- **统一入口**: 无论访问哪个节点，都能看到一致的界面和数据
+- **脚本集中管理**: 脚本文件只需存储在 Master 节点
+- **Session 共享**: 登录状态通过代理自动同步
+
+#### 代理工作原理
+
+```
+用户请求 → K8s Ingress → 随机 Pod (可能是 Worker)
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │ 是 Master 节点?  │
+                    └────────┬────────┘
+                             │
+                    ┌────────┴────────┐
+                    │                 │
+                    ▼ 是              ▼ 否
+              直接处理请求      代理转发到 Master
+                                      │
+                                      ▼
+                              Master 处理并返回
+```
+
+#### 不代理的路径
+
+以下路径不会被转发（直接在本地处理）：
+
+| 路径 | 说明 |
+|------|------|
+| `/ok` | K8s 健康检查探针 |
+| `/api/script/sync` | Worker 节点本地脚本同步接口 |
+| `/api/cluster/test-connectivity` | 网络连通性诊断 |
+| `/static/*` | 静态资源文件 |
+
+### 压测模式说明
+
+主页面支持三种压测模式：
+
+#### 1. 固定用户数模式
+- 设置固定的并发用户数和生成速率
+- 适合基准测试和稳定性测试
+
+#### 2. 递增压测模式
+- 用户数按阶梯递增，逐步加压
+- 适合找出系统性能瓶颈
+
+#### 3. 集群模式
+- 利用多节点分布式执行压测
+- 支持 Master + 多 Worker 架构
+- 可设置 Worker 节点数量
+
+**集群模式配置参数：**
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| 总用户数 | 分布式压测的目标并发用户数 | 1000 |
+| 生成速率 | 每秒启动的用户数 | 100 |
+| Worker 节点数 | 启动的 Worker 实例数量，0 表示单机模式 | 2 |
+| 运行时间 | 压测持续时间，留空则持续运行 | 5m |
+
+### 集群管理页面
+
+访问 `/cluster` 可以进入集群管理界面，功能包括：
+
+1. **集群状态概览**
+   - 当前节点信息（Master/Worker）
+   - 在线节点数、总容量、运行实例数
+
+2. **节点列表**
+   - 查看所有集群节点
+   - 节点状态、角色、资源使用情况
+   - 支持强制重新选举
+
+3. **集群实例列表（树形展示）**
+   - 👑 Master 实例显示在主行，带蓝色左边框
+   - 👷 Worker 实例缩进展示在 Master 下方，带绿色左边框和树形连接线（├── / └──）
+   - 清晰展示主从层级关系
+   - 节点 ID 自动缩短显示，hover 显示完整 ID
+   - 离线实例自动清理，不会残留
+
+4. **启动分布式压测**
+   - 可视化脚本选择（树形结构）
+   - 搜索和预览脚本
+   - 配置 Worker 数量和压测参数
+
 ## 📞 技术支持
 
 如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
@@ -1425,14 +1817,14 @@ def on_test_stop(environment, **kwargs):
 - **文档**: 查看本文档的详细说明
 - **示例**: 参考 `scripts/` 目录中的示例脚本
 - **日志**: 检查应用日志获取错误信息
+- **Issues**: 在 [GitHub Issues](https://github.com/yourorg/locust-cluster-manager/issues) 提交问题
 - **社区**: 参与技术讨论和经验分享
 
 ## 📄 许可证
 
-本项目采用内部许可证，仅供 Chief 团队内部使用。
+本项目采用 [MIT License](LICENSE) 开源许可证。
 
 ---
 
-**版本**: 1.0.0  
-**更新时间**: 2024年1月  
-**维护团队**: Chief 开发团队
+**版本**: 1.1.0  
+**更新时间**: 2026年7月  
