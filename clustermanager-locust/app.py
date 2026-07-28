@@ -35,6 +35,10 @@ from flask import Flask
 # 设置文件系统编码
 if sys.platform.startswith('win'):
     os.environ['PYTHONIOENCODING'] = 'utf-8'
+    # 修复 Windows 控制台 GBK 编码无法输出 emoji/中文的问题
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 
 def create_app():

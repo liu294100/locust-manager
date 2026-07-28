@@ -144,10 +144,11 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
    # 推荐命名格式
    api_stress_test.py              # API压力测试
    user_login_stress.py            # 用户登录压测
-   order_query_performance.py      # 订单查询性能测试
+   query_performance.py            # 查询性能测试
    ```
 
 2. **脚本结构建议**
+   
    ```python
    # 标准脚本模板
    from locust import HttpUser, task, between
@@ -175,7 +176,7 @@ Web UI 提供了直观的压测管理界面，主要功能区域包括：
            """低频任务"""
            pass
    ```
-
+   
 3. **快速迭代流程**
    ```bash
    # 开发流程示例
@@ -399,8 +400,8 @@ import json
 
 # 账号配置
 accounts = [
-    {"username": "test001", "password": "123456", "account_id": "A001", "account_type": "M"},
-    {"username": "test002", "password": "123456", "account_id": "A002", "account_type": "M"},
+    {"username": "test001", "password": "123456"},
+    {"username": "test002", "password": "123456"},
 ]
 
 class TraderUser(HttpUser):
@@ -425,18 +426,16 @@ class TraderUser(HttpUser):
                 resp.failure(f"登录失败: {resp.text}")
     
     @task(1)
-    def query_orders(self):
-        """查询订单任务"""
+    def query(self):
+        """查询任务"""
         if not hasattr(self, 'headers'):
             return
             
         query_data = {
-            "AccountID": self.account["account_id"],
-            "AccountType": self.account["account_type"],
-            "Exchange": "HK"
+            "Exc": "DEMO"
         }
         
-        with self.client.post("/api/v1/order/listByAccountId", 
+        with self.client.post("/api/v1/xxx", 
                              headers=self.headers,
                              data=json.dumps(query_data),
                              catch_response=True) as resp:
@@ -450,7 +449,7 @@ class TraderUser(HttpUser):
 
 #### 1. 签名认证
 
-对于需要签名认证的接口，可以使用内置的签名功能：
+对于需要签名认证的接口：
 
 ```python
 def _get_signature_headers(self, payload_dict: dict | None):
@@ -490,9 +489,6 @@ def low_frequency_task(self):
 项目提供了多个预置脚本，位于 `scripts/` 目录：
 
 - `demo/api_locust.py`: 基础 API 接口测试
-- `demo/order_query_locust.py`: 订单查询接口测试
-- `demo/order_fees_locust.py`: 订单费用查询测试
-- `demo/order_modify_test.py`: 订单修改测试
 
 ## 🐳 部署方式
 
@@ -633,7 +629,7 @@ services:
       - "8089:8088"
     environment:
       - TARGET_HOST=https://api.test.example.com
-      - LOCUST_FILE=demo/order_query_locust.py
+      - LOCUST_FILE=demo/query_locust.py
     volumes:
       - ./scripts:/app/scripts
       - ./test-logs:/app/logs
