@@ -50,7 +50,7 @@ pip install -r requirements.txt
   "mcpServers": {
     "locust-stress-test": {
       "command": "python",
-      "args": ["d:/dev/code/chief-stresstest-locust/mcp/locust_mcp_server.py"],
+      "args": ["d:/dev/code/stresstest-locust/mcp/locust_mcp_server.py"],
       "env": {
         "LOCUST_BASE_URL": "http://localhost:8088",
         "LOCUST_USERNAME": "admin",
@@ -140,7 +140,7 @@ curl -X POST 'https://api.example.com/login' \
     "locust-stress-test": {
       "command": "uvx",
       "args": [
-        "--from", "git+https://your-repo/chief-stresstest-locust.git#subdirectory=mcp",
+        "--from", "git+https://your-repo/stresstest-locust.git#subdirectory=mcp",
         "locust-mcp-server"
       ],
       "env": {
