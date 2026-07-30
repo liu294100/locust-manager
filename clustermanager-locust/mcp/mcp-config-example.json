@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "locust-stress-test": {
+      "command": "python",
+      "args": ["d:/dev/code/chief-stresstest-locust/mcp/locust_mcp_server.py"],
+      "env": {
+        "LOCUST_BASE_URL": "http://localhost:8088",
+        "LOCUST_USERNAME": "admin",
+        "LOCUST_PASSWORD": "admin123"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "list_scripts",
+        "list_instances",
+        "get_instance_stats"
+      ]
+    }
+  }
+}

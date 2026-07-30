@@ -1,0 +1,45 @@
+{
+  "mcpServers": {
+    "locust-local": {
+      "command": "python",
+      "args": ["d:/dev/code/chief-stresstest-locust/mcp/locust_mcp_server.py"],
+      "env": {
+        "LOCUST_BASE_URL": "http://localhost:8088",
+        "LOCUST_USERNAME": "admin",
+        "LOCUST_PASSWORD": "admin123"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "list_scripts",
+        "list_instances",
+        "get_instance_stats",
+        "analyze_results"
+      ]
+    },
+    "locust-test": {
+      "command": "python",
+      "args": ["d:/dev/code/chief-stresstest-locust/mcp/locust_mcp_server.py"],
+      "env": {
+        "LOCUST_BASE_URL": "https://locust.test.stx365.com",
+        "LOCUST_USERNAME": "test_user",
+        "LOCUST_PASSWORD": "test_password"
+      },
+      "disabled": true,
+      "autoApprove": [
+        "list_scripts",
+        "list_instances"
+      ]
+    },
+    "locust-prod": {
+      "command": "python",
+      "args": ["d:/dev/code/chief-stresstest-locust/mcp/locust_mcp_server.py"],
+      "env": {
+        "LOCUST_BASE_URL": "https://locust.prod.stx365.com",
+        "LOCUST_USERNAME": "prod_user",
+        "LOCUST_PASSWORD": "prod_password"
+      },
+      "disabled": true,
+      "autoApprove": []
+    }
+  }
+}

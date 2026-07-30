@@ -40,7 +40,7 @@
 
 1. **克隆项目**
 ```bash
-git clone https://github.com/yourorg/locust-cluster-manager.git
+git clone https://github.com/liu294100/locust-manager.git
 cd locust-cluster-manager
 ```
 
@@ -498,7 +498,7 @@ def low_frequency_task(self):
 #### 基础安装
 ```bash
 # 克隆项目
-git clone https://github.com/yourorg/locust-cluster-manager.git
+git clone https://github.com/liu294100/locust-manager.git
 cd locust-cluster-manager
 
 # 创建虚拟环境（推荐）
@@ -520,7 +520,6 @@ python app.py
 ```bash
 # 设置环境变量
 export TARGET_HOST=https://api.dev.example.com
-export LOCUST_FILE=demo/api_locust.py
 export WEB_PORT=8088
 
 # 启动开发服务
@@ -541,25 +540,23 @@ docker run --rm -p 8088:8088 locust-cluster-manager:latest
 docker run --rm \
   -p 8088:8088 \
   -e TARGET_HOST=https://api.dev.example.com \
-  -e LOCUST_FILE=demo/api_locust.py \
   locust-cluster-manager:latest
 ```
 
 #### 高级配置
 ```bash
-# 挂载自定义脚本目录
-docker run --rm \
-  -p 8088:8088 \
-  -v $(pwd)/custom-scripts:/app/scripts \
-  -e TARGET_HOST=https://api.test.example.com \
-  locust-cluster-manager:latest
-
 # 使用自定义网络
 docker network create locust-network
 docker run --rm \
   --network locust-network \
   --name locust-service \
   -p 8088:8088 \
+  locust-cluster-manager:latest
+
+# 挂载日志目录
+docker run --rm \
+  -p 8088:8088 \
+  -v $(pwd)/logs:/app/logs \
   locust-cluster-manager:latest
 ```
 
@@ -593,10 +590,8 @@ services:
       - "8088:8088"
     environment:
       - TARGET_HOST=https://api.dev.example.com
-      - LOCUST_FILE=demo/api_locust.py
       - WEB_PORT=8088
     volumes:
-      - ./scripts:/app/scripts
       - ./logs:/app/logs
     restart: unless-stopped
     healthcheck:
@@ -618,10 +613,8 @@ services:
       - "8088:8088"
     environment:
       - TARGET_HOST=https://api.dev.example.com
-      - LOCUST_FILE=demo/api_locust.py
       - LOG_LEVEL=DEBUG
     volumes:
-      - ./scripts:/app/scripts
       - ./dev-logs:/app/logs
 
   locust-test:
@@ -630,9 +623,7 @@ services:
       - "8089:8088"
     environment:
       - TARGET_HOST=https://api.test.example.com
-      - LOCUST_FILE=demo/query_locust.py
     volumes:
-      - ./scripts:/app/scripts
       - ./test-logs:/app/logs
 ```
 
@@ -672,7 +663,6 @@ docker run -d \
   --name locust-service \
   -p 8088:8088 \
   -e TARGET_HOST=https://api.prod.example.com \
-  -e LOCUST_FILE=demo/api_locust.py \
   --restart unless-stopped \
   --memory=2g \
   --cpus=2 \
@@ -683,8 +673,6 @@ docker run -d \
   --name locust-service \
   -p 8088:8088 \
   -e TARGET_HOST=https://api.prod.example.com \
-  -e LOCUST_FILE=demo/api_locust.py \
-  -v /data/locust/scripts:/app/scripts \
   -v /data/locust/logs:/app/logs \
   --restart unless-stopped \
   --memory=4g \
@@ -707,11 +695,9 @@ services:
       - "8088:8088"
     environment:
       - TARGET_HOST=https://api.prod.example.com
-      - LOCUST_FILE=demo/api_locust.py
       - LOG_LEVEL=INFO
       - WEB_PORT=8088
     volumes:
-      - /data/locust/scripts:/app/scripts
       - /data/locust/logs:/app/logs
     restart: unless-stopped
     deploy:
@@ -775,8 +761,6 @@ spec:
         env:
         - name: TARGET_HOST
           value: "https://api.prod.example.com"
-        - name: LOCUST_FILE
-          value: "demo/api_locust.py"
         resources:
           requests:
             memory: "1Gi"
@@ -785,14 +769,9 @@ spec:
             memory: "2Gi"
             cpu: "1"
         volumeMounts:
-        - name: scripts-volume
-          mountPath: /app/scripts
         - name: logs-volume
           mountPath: /app/logs
       volumes:
-      - name: scripts-volume
-        persistentVolumeClaim:
-          claimName: locust-scripts-pvc
       - name: logs-volume
         persistentVolumeClaim:
           claimName: locust-logs-pvc
@@ -809,7 +788,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8088
-  : LoadBalancer
+  type: LoadBalancer
 ```
 
 ### 6. 容器化最佳实践
@@ -849,10 +828,8 @@ CMD ["python", "app.py"]
 # 创建环境变量文件
 cat > .env << EOF
 TARGET_HOST=https://api.prod.example.com
-LOCUST_FILE=demo/api_locust.py
 WEB_PORT=8088
 LOG_LEVEL=INFO
-MAX_WORKERS=4
 EOF
 
 # 使用环境变量文件
@@ -862,14 +839,12 @@ docker run --rm --env-file .env -p 8088:8088 locust-cluster-manager:latest
 #### 数据持久化
 ```bash
 # 创建数据卷
-docker volume create locust-scripts
 docker volume create locust-logs
 
 # 使用数据卷
 docker run -d \
   --name locust-service \
   -p 8088:8088 \
-  -v locust-scripts:/app/scripts \
   -v locust-logs:/app/logs \
   locust-cluster-manager:latest
 ```
@@ -906,7 +881,6 @@ wrk -t12 -c400 -d30s http://localhost:8088/
 | 变量名 | 说明 | 默认值 | 示例 |
 |--------|------|--------|------|
 | `TARGET_HOST` | 目标测试主机 | 无 | `https://api.dev.example.com` |
-| `LOCUST_FILE` | 默认脚本文件 | `locust_demo.py` | `demo/api_locust.py` |
 | `WEB_PORT` | Web UI 端口 | `8088` | `8089` |
 | `LOCUST_PORT` | Locust 服务端口 | `8089` | `8090` |
 

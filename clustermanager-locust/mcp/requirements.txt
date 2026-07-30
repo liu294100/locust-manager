@@ -1,0 +1,10 @@
+# Locust MCP Server 依赖
+
+# MCP SDK
+mcp>=1.0.0
+
+# HTTP 客户端
+httpx>=0.25.0
+
+# 异步支持
+anyio>=4.0.0
